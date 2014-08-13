@@ -12,7 +12,7 @@ When Editor logout
 Then editor should navigate to LoginPage
 
 #@addvenue
-@Venue
+@Venue1
 Scenario: Editor can able to add a new venue
 Given Editor is logged-In
 And Editor is on HomePage
