@@ -22,10 +22,10 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by Sairam on 11/08/2014.
  */
-public class StepDefinitions {
+public class StepDefinitions extends BaseClass{
 
-    //WebDriver instance variable
-    static WebDriver driver;
+   //WebDriver instance variable
+   // static WebDriver driver;
     //Data
     String username = "srikanth", password = "Sairam99";
     public static boolean isTextPresent(String text)
@@ -50,32 +50,32 @@ public class StepDefinitions {
 
     @Before
     public void setUp()throws NullPointerException{
-//        driver = new FirefoxDriver();
-//        driver.get("http://admin.qa04.d/");
-//        driver.manage().window().maximize();
-//        driver.manage().timeouts().implicitlyWait(40, TimeUnit.SECONDS);
+        driver = new FirefoxDriver();
+        driver.get("http://admin.qa04.d/");
+        driver.manage().window().maximize();
+        driver.manage().timeouts().implicitlyWait(40, TimeUnit.SECONDS);
 
-        try {
-            //Creating a Firefox WebDriver Object
-//           driver = new FirefoxDriver();
-            //Create an object for Desired Capabilities
-            DesiredCapabilities caps = DesiredCapabilities.firefox();
-            caps.setCapability("platform", "Windows 8");
-            caps.setCapability("version", "3.0");
-
-            // Create the connection to Sauce Labs to run the tests
-            driver = new RemoteWebDriver(
-            new URL("http://timeoutdigital:b6315b1b-3640-4a38-aa72-54c4fa2ca570@ondemand.saucelabs.com:80/wd/hub"),caps);
-            //Open the URL
-            driver.get("http://admin.qa04.d/");
-            //Maximising the window
-            driver.manage().window().maximize();
-            //waiting for page to load
-            driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
+//        try {
+//            //Creating a Firefox WebDriver Object
+////           driver = new FirefoxDriver();
+//            //Create an object for Desired Capabilities
+//            DesiredCapabilities caps = DesiredCapabilities.firefox();
+//            caps.setCapability("platform", "Windows 8");
+//            caps.setCapability("version", "3.0");
+//
+//            // Create the connection to Sauce Labs to run the tests
+//            driver = new RemoteWebDriver(
+//            new URL("http://timeoutdigital:b6315b1b-3640-4a38-aa72-54c4fa2ca570@ondemand.saucelabs.com:80/wd/hub"),caps);
+//            //Open the URL
+//            driver.get("http://admin.qa04.d/");
+//            //Maximising the window
+//            driver.manage().window().maximize();
+//            //waiting for page to load
+//            driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+//
+//        } catch (Exception e) {
+//            System.out.println(e.getMessage());
+//        }
    }
     @After
     public void stop() {
@@ -146,7 +146,8 @@ public class StepDefinitions {
 
     @When("^Editor selects Venues Option$")
     public void Editor_selects_Venues_Option() {
-        driver.findElement(By.linkText("Venues")).click();
+    DashBoardPage dashBoardPage=new DashBoardPage();
+    dashBoardPage.navigateToVenuesPage();
 
     }
 
@@ -159,17 +160,17 @@ public class StepDefinitions {
     @When("^Editor selects Add Venue Option$")
     public void Editor_selects_Add_Venue_Option() throws InterruptedException {
 //    driver.findElement(By.xpath(".//*[@id='content']/h1/a")).click();
-         Thread.sleep(3000);
-        driver.findElement(By.linkText("+ Add venue")).click();
-    }
-
-    @Then("^Editor should be navigate to Add Venue Page$")
-    public void Editor_should_be_navigate_to_Add_Venue_Page() {
+        Thread.sleep(2000);
         try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+            driver.findElement(By.linkText("+ Add venue")).click();
+        } catch (Exception e) {
+            System.out.println("Element Not Fount");
         }
+    }
+    @Then("^Editor should be navigate to Add Venue Page$")
+    public void Editor_should_be_navigate_to_Add_Venue_Page() throws InterruptedException {
+
+        driver.manage().timeouts().implicitlyWait(30,TimeUnit.SECONDS);
         Assert.assertTrue(driver.findElement(By.cssSelector("h1")).getText().contains("New venue"));
     }
     @When("^Editor selects Language as '(.*)'$")

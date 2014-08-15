@@ -1,0 +1,10 @@
+Feature: Edit the Venue
+#As an editor
+#I want to see the list of Venues
+#So that I can edit the Venue
+
+Scenario: Editor can able to edit the selected venue
+Given Editor is logged-In
+And Editor is in Venues Page
+Then Editor
+
