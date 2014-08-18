@@ -5,29 +5,26 @@ import cucumber.annotation.Before;
 import cucumber.annotation.en.Given;
 import cucumber.annotation.en.Then;
 import cucumber.annotation.en.When;
-import org.junit.AfterClass;
+import cucumber.table.DataTable;
 import org.junit.Assert;
-import org.junit.BeforeClass;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.Select;
 
-import java.net.URL;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Created by Sairam on 11/08/2014.
+ * Created by freelance on 15/08/2014.
  */
 public class StepDefinitions extends BaseClass{
 
-   //WebDriver instance variable
-   // static WebDriver driver;
+    //WebDriver instance variable
+    // static WebDriver driver;
+
     //Data
     String username = "srikanth", password = "Sairam99";
+    String random= String.valueOf(new Random().nextInt());
     public static boolean isTextPresent(String text)
     {
         return getVisibleText().contains(text);
@@ -43,9 +40,23 @@ public class StepDefinitions extends BaseClass{
         Select sel=new Select(driver.findElement(by));
         sel.selectByVisibleText(text);
     }
+    public void selectWithIndex(By by,int index)
+    {
+        Select sel=new Select(driver.findElement(by));
+        sel.selectByIndex(index);
+    }
     public void navigateToVenuesPage()
     {
         driver.findElement(By.linkText("Venues")).click();
+    }
+    public void login(String username, String password) {
+        try {
+            driver.findElement(By.id("username")).sendKeys(username);
+            driver.findElement(By.id("password")).sendKeys(password);
+            driver.findElement(By.name("Login")).click();
+        } catch (Exception e) {
+            System.out.println("Invalid Credentials");
+        }
     }
 
     @Before
@@ -76,90 +87,23 @@ public class StepDefinitions extends BaseClass{
 //        } catch (Exception e) {
 //            System.out.println(e.getMessage());
 //        }
-   }
+    }
     @After
     public void stop() {
-        driver.quit();
+       // driver.quit();
+    }
+    @Given("^I am Logged-In$")
+    public void I_am_Logged_In() {
+    this.login(username,password);
+    driver.manage().timeouts().implicitlyWait(30,TimeUnit.SECONDS);
+    Assert.assertTrue(driver.findElement(By.linkText(username)).isDisplayed());
     }
 
-
-    public void login(String username, String password) {
-        try {
-            driver.findElement(By.id("username")).sendKeys(username);
-            driver.findElement(By.id("password")).sendKeys(password);
-            driver.findElement(By.name("Login")).click();
-        } catch (Exception e) {
-            System.out.println("Invalid Credentials");
-        }
-    }
-
-    @Given("^Editor is on Login Page$")
-    public void Editor_is_on_Login_Page() throws Throwable {
-    Assert.assertTrue(isTextPresent("Login"));
-    }
-
-    @When("^Editor Enters Username and Password and selects Login$")
-    public void Editor_Enters_Username_and_Password_and_selects_Login(){
-
-        this.login(username, password);
-    }
-
-    @Then("^Editor should be logged successfully$")
-    public void Editor_should_be_logged_successfully(){
-       Assert.assertTrue(driver.findElement(By.linkText(username)).isDisplayed());
-    }
-
-    @When("^Editor logout$")
-    public void Editor_logout()throws NullPointerException{
-        //Assert.assertTrue(driver.findElement(By.linkText("Logout")).isDisplayed());
-        driver.findElement(By.className("login_logout")).isDisplayed();
-        driver.findElement(By.className("login_logout")).click();
-    }
-
-    @Then("^editor should navigate to LoginPage$")
-    public void editor_should_navigate_to_LoginPage(){
-        // Express the Regexp above with the code you wish you had
-      //  Assert.assertEquals("Login", driver.findElement(By.name("Login")).getText());
-        Assert.assertTrue(this.isTextPresent("Login"));
-
-    }
-
-    @Given("^Editor is logged-In$")
-    public void Editor_is_logged_In() throws InterruptedException {
-        this.login(username,password);
-        Thread.sleep(2000);
-//      Assert.assertTrue(driver.findElement(By.className(username)).isDisplayed());
-//      driver.findElement(By.className("login_logout")).isDisplayed();
-    }
-
-    @Given("^Editor is on HomePage$")
-    public void Editor_is_on_HomePage() {
-    driver.findElement(By.linkText("Dashboard")).isDisplayed();
-
-    }
-
-    @Then("^Editor can see Venues Option$")
-    public void Editor_can_see_Add_Venue_Option() {
-        driver.findElement(By.linkText("Venues")).isDisplayed();
-
-    }
-
-    @When("^Editor selects Venues Option$")
-    public void Editor_selects_Venues_Option() {
-    DashBoardPage dashBoardPage=new DashBoardPage();
-    dashBoardPage.navigateToVenuesPage();
-
-    }
-
-    @Then("^Editor should navigate to Venues Page$")
-    public void Editor_should_navigate_to_Add_Venue_Page() {
-//        Assert.assertTrue(this.isTextPresent("Venues"));
-
-    }
-
-    @When("^Editor selects Add Venue Option$")
-    public void Editor_selects_Add_Venue_Option() throws InterruptedException {
-//    driver.findElement(By.xpath(".//*[@id='content']/h1/a")).click();
+    @When("^I add a Venue$")
+    public void I_add_a_Venue() throws InterruptedException {
+        driver.findElement(By.linkText("Dashboard")).isDisplayed();
+        DashBoardPage dashBoardPage=new DashBoardPage();
+        dashBoardPage.navigateToVenuesPage();
         Thread.sleep(2000);
         try {
             driver.findElement(By.linkText("+ Add venue")).click();
@@ -167,80 +111,106 @@ public class StepDefinitions extends BaseClass{
             System.out.println("Element Not Fount");
         }
     }
-    @Then("^Editor should be navigate to Add Venue Page$")
-    public void Editor_should_be_navigate_to_Add_Venue_Page() throws InterruptedException {
 
-        driver.manage().timeouts().implicitlyWait(30,TimeUnit.SECONDS);
-        Assert.assertTrue(driver.findElement(By.cssSelector("h1")).getText().contains("New venue"));
-    }
-    @When("^Editor selects Language as '(.*)'$")
-    public void Editor_selects_Language_as_British_English(String language) {
-    this.selectFromDropDownMenu(By.id("venueCreate_language"),language);
-    }
+    @When("^I supply the information$")
+    public void I_supply_the_information(DataTable arg1) throws InterruptedException {
+        // Express the Regexp above with the code you wish you had
+        // For automatic conversion, change DataTable to List<YourType>
 
-    @When("^Editor enters Name as '(.*)' and City as '(.*)'$")
-    public void Editor_enters_Name_as_Sri_and_City_as_London(String Name,String City) {
+       List<String> raw = Arrays.asList("British English", "Srikanth", "London", "UK - London");
 
-   try {
-       driver.findElement(By.id("venueCreate_name")).sendKeys(Name + new Random().nextInt());
-   }catch (Exception e)
-   {
-       System.out.println("We have found some similar sounding venues, please review them below before saving this venue ");
-   }
-    driver.findElement(By.id("venueCreate_city")).sendKeys(City);
+       // DataTable dataTable = DataTable.create(raw, Locale.getDefault(),"Language", "Name", "City", "Site");
+        this.selectFromDropDownMenu(By.id("venueCreate_language"),raw.get(0));
+        try {
+            driver.findElement(By.id("venueCreate_name")).sendKeys(raw.get(1)+random);
+        }catch (Exception e)
+        {
+            System.out.println("We have found some similar sounding venues, please review them below before saving this venue ");
+        }
+        driver.findElement(By.id("venueCreate_city")).sendKeys(raw.get(2));
+        this.selectFromDropDownMenu(By.id("venueCreate_site"),raw.get(3));
     }
 
-    @When("^Editor selects Site as '(.*)'$")
-    public void Editor_selects_Site_as_UK_London(String site) {
-    this.selectFromDropDownMenu(By.id("venueCreate_site"),site);
+    @When("^I save it$")
+    public void I_save_it() {
+
+        driver.findElement(By.id("form_submit")).click();
 
     }
 
-    @When("^selects Save Option$")
-    public void selects_Save_Option() throws InterruptedException {
-    driver.findElement(By.id("form_submit")).click();
-    Thread.sleep(2000);
+    @Then("^the Venue is created and should see message as '(.*)'$")
+    public void the_Venue_is_created_and_should_see_message_as_The_venue_was_created_successfully_(String message) {
+       driver.manage().timeouts().implicitlyWait(30,TimeUnit.SECONDS);
+        Assert.assertTrue(this.isTextPresent(message));
     }
 
-    @Then("^Editor should see message as '(.*)'$")
-    public void Editor_should_see_a_Saved_message(String message) {
-//    Assert.assertTrue(isTextPresent(message));
-    }
-
-    @Then("^Editor should be navigate to '(.*)' Page$")
-    public void Editor_should_be_navigate_to_Edit_Venue_Page(String editVenuePage) throws InterruptedException {
+    @Then("^it should be navigate to the 'Edit venue' Page$")
+    public void it_should_be_navigate_to_the_Edit_venue_Page() {
 //    Assert.assertTrue(this.isTextPresent(editVenuePage));
-    Thread.sleep(2000);
-    driver.findElement(By.linkText("Logout")).click();
+        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+        driver.findElement(By.linkText("Logout")).click();
+    }
+
+// Edit Venue
+@Given("^I am on the Venues Page$")
+public void I_am_on_the_Venues_Page() {
+    this.navigateToVenuesPage();
+    driver.manage().timeouts().implicitlyWait(30,TimeUnit.SECONDS);
+    Assert.assertTrue(this.isTextPresent("Venues"));
+
+}
+
+    @When("^I search for the venue with the Name as '(.*)' and Site as '(.*)'$")
+    public void I_search_for_the_venue_with_the_Name_as_Srikanth_and_Site_as_UK_London(String name,String site) {
+        driver.findElement(By.id("venue_filter_name")).sendKeys(name);
+        this.selectFromDropDownMenu(By.id("venue_filter_site"),site);
+        driver.manage().timeouts().implicitlyWait(30,TimeUnit.SECONDS);
+
+    }
+    @When("^I selects UpdatedInLast as '(.*)'$")
+    public void I_selects_UpdatedInLast_as_24_Hours(String UpdatedInLast)
+    {
+        this.selectFromDropDownMenu(By.id("venue_filter_updated_last"),UpdatedInLast);
+//        this.selectWithIndex(By.id("venue_filter_updated_last"),index);
+        driver.manage().timeouts().implicitlyWait(30,TimeUnit.SECONDS);
+        driver.findElement(By.xpath(".//*[@id='filterBox']/form/fieldset/div[4]/button")).click();
+        driver.manage().timeouts().implicitlyWait(30,TimeUnit.SECONDS);
+    }
+    @When("^I select the recently created Venue with the name '(.*)'$")
+    public void I_select_the_recently_created_Venue_with_the_name(String name) {
+    driver.findElement(By.partialLinkText(name)).click();
+    driver.manage().timeouts().implicitlyWait(30,TimeUnit.SECONDS);
 
     }
 
-    @Given("^Editor is in Venues Page$")
-    public void Editor_is_in_Venues_Page() {
-     this.login(username,password);
-     this.navigateToVenuesPage();
-//     Assert.assertTrue(this.isTextPresent("Venues"));
+    @Then("^I should navigate to the Edit Venue Page$")
+    public void I_should_navigate_to_the_Edit_Venue_Page() {
 
-    }
-    @When("^Editor selects Name as '(.*)' and Site as '(.*)'$")
-    public void Editor_selects_Name_as_Sri_and_City_as_London(String name,String Site) {
-    driver.findElement(By.id("venue_filter_name")).sendKeys(name);
-    this.selectFromDropDownMenu(By.id("venue_filter_site"),Site);
-    }
-
-
-    @When("^selects filter$")
-    public void selects_filter() throws InterruptedException {
-    driver.findElement(By.xpath(".//*[@id='filterBox']/form/fieldset/div[4]/button")).click();
-    Thread.sleep(1000);
 
     }
 
-    @Then("^Editor should see the list of venues with the name 'Sri' and Site 'Spain - Madrid'$")
-    public void Editor_should_see_the_list_of_venues_with_the_name_Sri_and_Site_SpainMadrid() {
-//    Assert.assertTrue(this.isTextPresent("Sri"));
-//    Assert.assertTrue(this.isTextPresent("Spain - Madrid"));
-    driver.findElement(By.linkText("Logout")).click();
+    @When("^I changes the BuildingNo as '(.*)' and Author as '(.*)' and Status as '(.*)'$")
+    public void I_changes_the_BuildingNo_as_Sri_Building_and_Author_as_Srikanth_and_Status_as_Completed(String BuildingNo,String Author,String Status) {
+    driver.manage().timeouts().implicitlyWait(30,TimeUnit.SECONDS);
+        driver.findElement(By.id("venueEdit_building_no")).clear();
+        driver.findElement(By.id("venueEdit_building_no")).sendKeys(BuildingNo);
+        driver.findElement(By.id("venueEdit_author")).clear();
+        driver.findElement(By.id("venueEdit_author")).sendKeys(Author);
+    this.selectFromDropDownMenu(By.id("venueEdit_status"),Status);
+    }
+
+    @When("^I save the Venue$")
+    public void I_save_the_Venue() {
+    driver.findElement(By.id("form_submit")).click();
+    driver.manage().timeouts().implicitlyWait(30,TimeUnit.SECONDS);
+    }
+
+    @Then("^I should see the message as '(.*)'$")
+    public void I_should_see_the_message_as_The_venue_was_saved_successfully_(String message) {
+        driver.manage().timeouts().implicitlyWait(30,TimeUnit.SECONDS);
+        Assert.assertTrue(this.isTextPresent(message));
+
+
     }
 
 

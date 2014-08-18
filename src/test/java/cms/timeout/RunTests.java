@@ -7,6 +7,6 @@ import org.junit.runner.RunWith;
  * Created by Sairam on 11/08/2014.
  */
 @RunWith(Cucumber.class)
-@Cucumber.Options(format = {"html:target/cucumber"},tags ="@Venue1")
+@Cucumber.Options(format = {"html:target/cucumber"},tags ="@editanddeleteVenue")
 public class RunTests {
 }
