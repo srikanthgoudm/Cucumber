@@ -572,8 +572,8 @@ jQuery.cookie = function(name, value, options) {
 <body>
 <div id="container">
 <div id="header">
-<div class="time">38.92 s</div>
-<h1>RunTests: <strong><span class="total">18 total, </span><span class="passed">18 passed</span></strong>
+<div class="time">1 m 42 s</div>
+<h1>RunTests: <strong><span class="total">25 total, </span><span class="passed">25 passed</span></strong>
 </h1>
 <div id="treecontrol">
 <ul>
@@ -591,125 +591,167 @@ jQuery.cookie = function(name, value, options) {
 <ul id="tree">
 <li xmlns="" class="level top open">
 <span><em class="time">
-<div class="time">38.92 s</div>
+<div class="time">1 m 42 s</div>
 </em>RunTests</span>
 <ul>
 <li class="level suite open">
 <span><em class="time">
-<div class="time">38.92 s</div>
+<div class="time">1 m 42 s</div>
 </em>Feature: Add,Edit and delete a Venue in CMS </span>
 <ul>
 <li class="level suite open">
 <span><em class="time">
-<div class="time">38.92 s</div>
-</em>Scenario Outline: I can able to check the newly added venue in the venue list and change the status  </span>
+<div class="time">25.13 s</div>
+</em>Scenario: I can able to add a new venue  </span>
 <ul>
-<li class="level suite open">
-<span><em class="time">
-<div class="time">38.92 s</div>
-</em>Examples:    </span>
-<ul>
-<li class="level suite open">
-<span><em class="time">
-<div class="time">22.41 s</div>
-</em>| Complete |    </span>
-<ul>
-<li class="level test">
-<span><em class="time">
-<div class="time">0 ms</div>
-</em><em class="status">passed</em>Given I am Logged-In     </span>
-</li>
-<li class="level test">
-<span><em class="time">
-<div class="time">0 ms</div>
-</em><em class="status">passed</em>Given I am on the Venues Page      </span>
-</li>
-<li class="level test">
-<span><em class="time">
-<div class="time">0 ms</div>
-</em><em class="status">passed</em>When I search for the venue with the Name as 'Srikanth' and Site as 'UK - London'       </span>
-</li>
-<li class="level test">
-<span><em class="time">
-<div class="time">0 ms</div>
-</em><em class="status">passed</em>And I selects UpdatedInLast as 'Week'        </span>
-</li>
-<li class="level test">
-<span><em class="time">
-<div class="time">0 ms</div>
-</em><em class="status">passed</em>And I select the recently created Venue with the name 'Srikanth'         </span>
-</li>
-<li class="level test">
-<span><em class="time">
-<div class="time">0 ms</div>
-</em><em class="status">passed</em>Then I should navigate to the Edit Venue Page          </span>
-</li>
-<li class="level test">
-<span><em class="time">
-<div class="time">0 ms</div>
-</em><em class="status">passed</em>When I changes the BuildingNo as 'Sri-Building_01' and Author as 'Srikanth' and Status as 'Complete'           </span>
-</li>
-<li class="level test">
-<span><em class="time">
-<div class="time">0 ms</div>
-</em><em class="status">passed</em>And I save the Venue            </span>
-</li>
 <li class="level test">
 <span><em class="time">
 <div class="time">1 ms</div>
-</em><em class="status">passed</em>'             </span>
+</em><em class="status">passed</em>Given I am Logged-In   </span>
+</li>
+<li class="level test">
+<span><em class="time">
+<div class="time">0 ms</div>
+</em><em class="status">passed</em>When I add a Venue    </span>
+</li>
+<li class="level test">
+<span><em class="time">
+<div class="time">0 ms</div>
+</em><em class="status">passed</em>And I supply the information     </span>
+</li>
+<li class="level test">
+<span><em class="time">
+<div class="time">0 ms</div>
+</em><em class="status">passed</em>And I save it      </span>
+</li>
+<li class="level test">
+<span><em class="time">
+<div class="time">0 ms</div>
+</em><em class="status">passed</em>'       </span>
+</li>
+<li class="level test">
+<span><em class="time">
+<div class="time">0 ms</div>
+</em><em class="status">passed</em>And it should be navigate to the 'Edit venue' Page        </span>
+</li>
+<li class="level test">
+<span><em class="time">
+<div class="time">0 ms</div>
+</em><em class="status">passed</em>And I do taxonomy for the venue         </span>
 </li>
 </ul>
 </li>
 <li class="level suite open">
 <span><em class="time">
-<div class="time">16.50 s</div>
-</em>| Deleted |              </span>
+<div class="time">1 m 17 s</div>
+</em>Scenario Outline: I can able to find the newly added venue in the list and I can Edit and Delete          </span>
+<ul>
+<li class="level suite open">
+<span><em class="time">
+<div class="time">1 m 17 s</div>
+</em>Examples:            </span>
+<ul>
+<li class="level suite open">
+<span><em class="time">
+<div class="time">50.95 s</div>
+</em>| Complete |            </span>
 <ul>
 <li class="level test">
 <span><em class="time">
 <div class="time">0 ms</div>
-</em><em class="status">passed</em>Given I am Logged-In               </span>
+</em><em class="status">passed</em>Given I am Logged-In             </span>
 </li>
 <li class="level test">
 <span><em class="time">
 <div class="time">0 ms</div>
-</em><em class="status">passed</em>Given I am on the Venues Page                </span>
+</em><em class="status">passed</em>Given I am on the Venues Page              </span>
 </li>
 <li class="level test">
 <span><em class="time">
 <div class="time">0 ms</div>
-</em><em class="status">passed</em>When I search for the venue with the Name as 'Srikanth' and Site as 'UK - London'                 </span>
+</em><em class="status">passed</em>When I search for the venue with the Name as 'Srikanth' and Site as 'UK - London'               </span>
 </li>
 <li class="level test">
 <span><em class="time">
 <div class="time">0 ms</div>
-</em><em class="status">passed</em>And I selects UpdatedInLast as 'Week'                  </span>
+</em><em class="status">passed</em>And I selects UpdatedInLast as 'Week'                </span>
 </li>
 <li class="level test">
 <span><em class="time">
 <div class="time">0 ms</div>
-</em><em class="status">passed</em>And I select the recently created Venue with the name 'Srikanth'                   </span>
+</em><em class="status">passed</em>And I select the recently created Venue with the name 'Srikanth'                 </span>
 </li>
 <li class="level test">
 <span><em class="time">
 <div class="time">0 ms</div>
-</em><em class="status">passed</em>Then I should navigate to the Edit Venue Page                    </span>
+</em><em class="status">passed</em>Then I should navigate to the Edit Venue Page                  </span>
 </li>
 <li class="level test">
 <span><em class="time">
 <div class="time">0 ms</div>
-</em><em class="status">passed</em>When I changes the BuildingNo as 'Sri-Building_01' and Author as 'Srikanth' and Status as 'Deleted'                     </span>
+</em><em class="status">passed</em>When I changes the BuildingNo as 'Sri-Building_01' and Author as 'Srikanth' and Status as 'Complete'                   </span>
 </li>
 <li class="level test">
 <span><em class="time">
 <div class="time">0 ms</div>
-</em><em class="status">passed</em>And I save the Venue                      </span>
+</em><em class="status">passed</em>And I save the Venue                    </span>
 </li>
 <li class="level test">
 <span><em class="time">
 <div class="time">0 ms</div>
-</em><em class="status">passed</em>'                       </span>
+</em><em class="status">passed</em>'                     </span>
+</li>
+</ul>
+</li>
+<li class="level suite open">
+<span><em class="time">
+<div class="time">26.20 s</div>
+</em>| Deleted |                      </span>
+<ul>
+<li class="level test">
+<span><em class="time">
+<div class="time">0 ms</div>
+</em><em class="status">passed</em>Given I am Logged-In                       </span>
+</li>
+<li class="level test">
+<span><em class="time">
+<div class="time">0 ms</div>
+</em><em class="status">passed</em>Given I am on the Venues Page                        </span>
+</li>
+<li class="level test">
+<span><em class="time">
+<div class="time">0 ms</div>
+</em><em class="status">passed</em>When I search for the venue with the Name as 'Srikanth' and Site as 'UK - London'                         </span>
+</li>
+<li class="level test">
+<span><em class="time">
+<div class="time">0 ms</div>
+</em><em class="status">passed</em>And I selects UpdatedInLast as 'Week'                          </span>
+</li>
+<li class="level test">
+<span><em class="time">
+<div class="time">0 ms</div>
+</em><em class="status">passed</em>And I select the recently created Venue with the name 'Srikanth'                           </span>
+</li>
+<li class="level test">
+<span><em class="time">
+<div class="time">0 ms</div>
+</em><em class="status">passed</em>Then I should navigate to the Edit Venue Page                            </span>
+</li>
+<li class="level test">
+<span><em class="time">
+<div class="time">0 ms</div>
+</em><em class="status">passed</em>When I changes the BuildingNo as 'Sri-Building_01' and Author as 'Srikanth' and Status as 'Deleted'                             </span>
+</li>
+<li class="level test">
+<span><em class="time">
+<div class="time">0 ms</div>
+</em><em class="status">passed</em>And I save the Venue                              </span>
+</li>
+<li class="level test">
+<span><em class="time">
+<div class="time">0 ms</div>
+</em><em class="status">passed</em>'                               </span>
 </li>
 </ul>
 </li>
@@ -725,7 +767,7 @@ jQuery.cookie = function(name, value, options) {
 </div>
 </div>
 <div id="footer">
-<p>Generated by IntelliJ IDEA on 18/08/14 13:54</p>
+<p>Generated by IntelliJ IDEA on 20/08/14 16:43</p>
 </div>
 </body>
 </html>
