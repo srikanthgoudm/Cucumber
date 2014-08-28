@@ -171,8 +171,8 @@ public class StepDefinitions extends BaseClass{
     {
         //driver.findElement(By.linkText("Taxonomy")).click();
         driver.findElement(By.xpath(".//*[@id='column2']/ul/li[2]/a")).click();
-        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-        driver.findElement(By.xpath("//*[@id='tagger_1']/div[1]/ul/li[4]/div")).click();
+        driver.manage().timeouts().implicitlyWait(50, TimeUnit.SECONDS);
+        driver.findElement(By.xpath("//*[@id='tagger_1']/div[1]/ul/li[4]")).click();
         Actions action = new Actions(driver);
         action.moveToElement(driver.findElement(By.xpath("//div[@id='tagger_1']/div[1]/ul/li[4]/ul/li[4]/span"))).doubleClick().build().perform();
         driver.manage().timeouts().implicitlyWait(30,TimeUnit.SECONDS);WebElement element = driver.findElement(By.xpath("//div[@id='tagger_1']/div[2]/ul/li[4]/ul/li[4]/span"));
