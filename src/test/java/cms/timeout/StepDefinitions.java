@@ -182,7 +182,6 @@ public class StepDefinitions extends BaseClass{
         (new Actions(driver)).dragAndDrop(element, target).perform();
 //        driver.manage().timeouts().implicitlyWait(50,TimeUnit.SECONDS);
     }
-
 @When("^I go back to Edit Venue Page$")
     public void backToVenue()
     {
