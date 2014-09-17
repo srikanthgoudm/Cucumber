@@ -11,7 +11,7 @@ Then Editor should be logged successfully
 When Editor logout
 Then editor should navigate to LoginPage
 
-#@addvenue
+
 @Venue
 Scenario: Editor can able to add a new venue
 Given Editor is logged-In
