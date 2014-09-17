@@ -29,15 +29,7 @@ public class StepDefinitions {
     Utils utils=new Utils();
     DashBoardPage dashBoardPage=new DashBoardPage();
     LoginPage loginPage=new LoginPage();
-    public void login(String username, String password) {
-        try {
-            driver.findElement(By.id("username")).sendKeys(username);
-            driver.findElement(By.id("password")).sendKeys(password);
-            driver.findElement(By.name("Login")).click();
-        } catch (Exception e) {
-            System.out.println("Invalid Credentials");
-        }
-    }
+
     @Before
     public void setUptartBrowser()throws MalformedURLException,InterruptedException{
         try {
@@ -93,7 +85,7 @@ public class StepDefinitions {
     @Given("^I am Logged-In$")
     public void I_am_Logged_In() {
     driver.manage().timeouts().implicitlyWait(10,TimeUnit.SECONDS);
-    this.login(username, password);
+    loginPage.login(username, password);
     driver.manage().timeouts().implicitlyWait(10,TimeUnit.SECONDS);
     Assert.assertTrue(driver.findElement(By.linkText(username)).isDisplayed());
     }
@@ -161,7 +153,7 @@ public class StepDefinitions {
 
 //--------------ADD Taxonomy---------------------
 
-    @When("^I add taxonomy")
+    @When("^I add taxonomy for Event")
     public void addTaxonomy1() throws InterruptedException {
          //click on taxonomy link
         driver.findElement(By.xpath(".//*[@id='column2']/ul/li[3]/a")).click();
