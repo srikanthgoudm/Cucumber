@@ -11,7 +11,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.Select;
 import java.net.MalformedURLException;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -31,50 +30,16 @@ public class StepDefinitions {
     LoginPage loginPage=new LoginPage();
 
     @Before
-    public void setUptartBrowser()throws MalformedURLException,InterruptedException{
+    public void setUptartBrowser()throws MalformedURLException,InterruptedException {
         try {
             BrowserFactory.StartBrowser("firefox", "http://admin.qa04.d/");
-            driver=BrowserFactory.driver;
-        }catch(Exception e) {
+            driver = BrowserFactory.driver;
+        } catch (Exception e) {
             e.printStackTrace();
         }
-////           if (Utils.isElementPresent(By.linkText("Logout")))
-//             if (driver.findElement(By.linkText("Logout")).isDisplayed()){
-//               Assert.assertTrue(driver.findElement(By.linkText("Logout")).isEnabled());
-//               driver.findElement(By.linkText("Logout")).click();
-//           }
 
+    }
 
-        }
-//        driver = new FirefoxDriver();
-//        driver.get("http://admin.qa04.d/");
-//        driver.manage().window().maximize();
-//        driver.manage().timeouts().implicitlyWait(40, TimeUnit.SECONDS);
-
-//        try {
-//            //Creating a Firefox WebDriver Object
-////           driver = new FirefoxDriver();
-//            //Create an object for Desired Capabilities
-//            DesiredCapabilities caps = DesiredCapabilities.firefox();
-//            caps.setCapability("version", "3.0");
-//            caps.setCapability("platform", "Windows 8");
-//
-//
-//            // Create the connection to Sauce Labs to run the tests
-//            driver = new RemoteWebDriver(
-//           new URL("http://timeoutdigital:b6315b1b-3640-4a38-aa72-54c4fa2ca570@ondemand.saucelabs.com:80/wd/hub"),caps);
-////                    new URL("http://cb_sgoud843:d0a05dc9-8302-4210-9ed0-9a74b760afe2@ondemand.saucelabs.com:80/wd/hub"),
-////                    caps);
-//            //Open the URL
-//            driver.get("http://admin.qa04.d/");
-//            //Maximising the window
-//            driver.manage().window().maximize();
-//            //waiting for page to load
-//            driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-////
-//        } catch (Exception e) {
-//            System.out.println(e.getMessage());
-//        }
 
     @After
     public void stop() {
