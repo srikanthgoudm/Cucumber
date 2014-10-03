@@ -68,7 +68,8 @@ public abstract class BrowserFactory extends BaseClass{
                 caps.setCapability("platform", "Windows 8");
 
                 // Create the connection to Sauce Labs to run the tests
-                driver = new RemoteWebDriver(new URL("http://timeoutdigital:b6315b1b-3640-4a38-aa72-54c4fa2ca570@ondemand.saucelabs.com:80/wd/hub"), caps);
+                // driver = new RemoteWebDriver(new URL("http://timeoutdigital:b6315b1b-3640-4a38-aa72-54c4fa2ca570@ondemand.saucelabs.com:80/wd/hub"), caps);
+                driver = new RemoteWebDriver(new URL("http://cb_sgoud843:d0a05dc9-8302-4210-9ed0-9a74b760afe2@ondemand.saucelabs.com:80/wd/hub"),caps);
                 //Open the URL
 
             } catch (Exception e) {
