@@ -1,7 +1,7 @@
 @addPage
 Feature: Add,Edit and delete an Page in CMS
 #As a an Editor
-#I want to see add edit and delete options
+#I want to see CMS Pages
 #so that I can add edit and delete a Page
 
   Background:
@@ -14,7 +14,7 @@ Feature: Add,Edit and delete an Page in CMS
       |Page Title | Sub Title     | Site       | Language         | Page Type|
       |Test Title | Test Sub Title|UK - London | British English  | Feature |
     And I save it
-    Then the Event is created and should see message as 'The page was created successfully'
+    Then the Page is created and should see message as 'The page was created successfully'
     And I should be navigate to the 'Edit page' Page
     When I add taxonomy for Page
     And I go back to Edit page

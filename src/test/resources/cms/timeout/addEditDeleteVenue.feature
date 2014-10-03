@@ -1,8 +1,8 @@
 @addVenue
 Feature: Add,Edit and delete a Venue in CMS
 #As a an Editor
-#I want to see add venue option
-#so that I can add a new venue
+#I want to see Venue Page
+#so that I can add edit and delete a Venue
 
   Background:
     Given I am Logged-In
@@ -11,8 +11,8 @@ Feature: Add,Edit and delete a Venue in CMS
   Scenario: I can able to add a new venue
     When I add a Venue
     And I supply the information
-      | Language         | Name     | City   | Site|
-      | British English  | Srikanth | London | UK - London |
+      | Site        | Language         | Name     | City   |
+      | UK - London | British English  | Srikanth | London |
     And I save it
     Then the Venue is created and should see message as 'The venue was created successfully.'
     And I should be navigate to the 'Edit venue' Page
@@ -20,8 +20,8 @@ Feature: Add,Edit and delete a Venue in CMS
     And I go back to Edit Venue Page
     And I change the Venue status as 'Complete'
     And I save it
-    And I logout
-    Then I should redirect to Login Page
+#    And I logout
+#    Then I should redirect to Login Page
 
   @editanddeleteVenue
   Scenario Outline: I can able to find the newly added venue in the list and I can Edit and Delete

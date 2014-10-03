@@ -7,9 +7,7 @@ import cucumber.annotation.en.Then;
 import cucumber.annotation.en.When;
 import cucumber.table.DataTable;
 import org.junit.Assert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import java.net.MalformedURLException;
 import java.util.*;
@@ -23,6 +21,9 @@ public class StepDefinitions {
     WebDriver driver = BrowserFactory.getDriver();
     // Test Data -----------------------------------------------
     String username = "autotest-admin", password = "outtime99";
+//    String URL="http://admin.qa10.d/";
+    String URL="http://admin.staging01.ldn3.timesout.net/";
+
     String random= String.valueOf(new Random().nextInt());
 
     Utils utils=new Utils();
@@ -30,28 +31,25 @@ public class StepDefinitions {
     LoginPage loginPage=new LoginPage();
 
     @Before
-    public void setUptartBrowser()throws MalformedURLException,InterruptedException {
+    public void StartBrowser()throws MalformedURLException,InterruptedException {
         try {
-            BrowserFactory.StartBrowser("firefox", "http://admin.qa04.d/");
+            BrowserFactory.StartBrowser("firefox", URL);
             driver = BrowserFactory.driver;
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
 
     @After
     public void stop() {
-
-    driver.quit();
+  driver.quit();
     }
     //------------LOGIN------------------
     @Given("^I am Logged-In$")
-    public void I_am_Logged_In() {
+    public void loggedIn() {
     driver.manage().timeouts().implicitlyWait(10,TimeUnit.SECONDS);
     loginPage.login(username, password);
-    driver.manage().timeouts().implicitlyWait(10,TimeUnit.SECONDS);
     Assert.assertTrue(driver.findElement(By.linkText(username)).isDisplayed());
     }
     //------------------ADD Venue-----------------------------
@@ -60,7 +58,6 @@ public class StepDefinitions {
         driver.findElement(By.linkText("Dashboard")).isDisplayed();
         DashBoardPage dashBoardPage=new DashBoardPage();
         dashBoardPage.navigateToVenuesPage();
-        Thread.sleep(2000);
         try {
             driver.findElement(By.linkText("+ Add venue")).click();
         } catch (Exception e) {
@@ -70,22 +67,19 @@ public class StepDefinitions {
 
     @When("^I supply the information$")
     public void supplyVenueInformation(DataTable arg1) throws InterruptedException {
-        // Express the Regexp above with the code you wish you had
-        // For automatic conversion, change DataTable to List<YourType>
-
-       List<String> raw = Arrays.asList("British English", "Srikanth", "London", "UK - London");
-
+        List<String> raw = Arrays.asList("UK - London","British English", "Srikanth", "London") ;
+        utils.selectFromDropDown(By.id("venueCreate_site"),raw.get(0));
        // DataTable dataTable = DataTable.create(raw, Locale.getDefault(),"Language", "Name", "City", "Site");
-        utils.selectFromDropDown(By.id("venueCreate_language"),raw.get(0));
+        utils.selectFromDropDown(By.id("venueCreate_language"),raw.get(1));
         try {
-            String a= raw.get(1)+random;
-            driver.findElement(By.id("venueCreate_name")).sendKeys(a);
+            String venueName= raw.get(2)+random;
+            driver.findElement(By.id("venueCreate_name")).sendKeys(venueName);
         }catch (Exception e)
         {
             System.out.println("We have found some similar sounding venues, please review them below before saving this venue ");
         }
-        driver.findElement(By.id("venueCreate_city")).sendKeys(raw.get(2));
-        utils.selectFromDropDown(By.id("venueCreate_site"),raw.get(3));
+        driver.findElement(By.id("venueCreate_city")).sendKeys(raw.get(3));
+
     }
 
     @When("^I save it$")
@@ -96,25 +90,23 @@ public class StepDefinitions {
     }
 
     @Then("^the Venue is created and should see message as '(.*)'$")
-    public void venueSuccessfulMessage(String message) {
+    public void venueSavedMessage(String message) {
        driver.manage().timeouts().implicitlyWait(10,TimeUnit.SECONDS);
         Assert.assertTrue(utils.isTextPresent(message));
     }
-    @Then("^the Event is created and should see message as '(.*)'$")
-    public void eventSuccessfulMessage(String message) {
 
-           driver.manage().timeouts().implicitlyWait(10,TimeUnit.SECONDS);
-           Assert.assertTrue(utils.isTextPresent(message));
+        @Then("^the Event is created and should see message as '(.*)'$")
+        public void eventSavedMessage(String message) {
 
-           //System.out.print("We have found some similar sounding events, please review them below before saving this event");
+            driver.manage().timeouts().implicitlyWait(10,TimeUnit.SECONDS);
+            Assert.assertTrue(utils.isTextPresent(message));
+    }
+    @Then("^the Page is created and should see message as '(.*)'$")
+    public void pageSavedMessage(String message) {
+        driver.manage().timeouts().implicitlyWait(10,TimeUnit.SECONDS);
+        Assert.assertTrue(utils.isTextPresent(message));
     }
 
-//    @Then("^it should be navigate to the '(.*)' Page$")
-//    public void navigateToEditVenuePage(String editVenuePage) {
-//   Assert.assertTrue(utils.isTextPresent(editVenuePage));
-//        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-////        driver.findElement(By.linkText("Logout")).click();
-//    }
 
 //--------------ADD Taxonomy---------------------
 
@@ -122,42 +114,13 @@ public class StepDefinitions {
     public void addTaxonomy1() throws InterruptedException {
          //click on taxonomy link
         driver.findElement(By.xpath(".//*[@id='column2']/ul/li[3]/a")).click();
-        //click on the categories
-        driver.findElement(By.xpath("/html/body/div/div[2]/div[3]/div[2]/div[1]/ul/li[4]/div")).click();
-        //select category
-        driver.findElement(By.xpath("/html/body/div/div[2]/div[3]/div[2]/div[1]/ul/li[4]/ul/li[4]/span")).click();
-
-        //double click on the category to add that to taxonomy
-        Actions action = new Actions(driver);
-        action.moveToElement(driver.findElement(By.xpath("//div[@id='tagger_1']/div[1]/ul/li[4]/ul/li[4]/span"))).doubleClick().build().perform();
-        driver.manage().timeouts().implicitlyWait(30,TimeUnit.SECONDS);
-        //select the primary category by drag n drop to primary tag area
-        WebElement element = driver.findElement(By.xpath("//div[@id='tagger_1']/div[2]/ul/li[4]/ul/li[4]/span"));
-        WebElement target = driver.findElement(By.xpath("//div[@id='primaryTag']/span"));
-        (new Actions(driver)).dragAndDrop(element, target).perform();
-        driver.manage().timeouts().implicitlyWait(50,TimeUnit.SECONDS);
-        driver.findElement(By.xpath("/html/body/div/div[2]/div[3]/button")).click();
+       dashBoardPage.addTaxonomy();
     }
     @When("^I add taxonomy for Venue")
     public void addTaxonomy2() throws InterruptedException {
         //click on taxonomy link
-       // driver.findElement(By.xpath(".//*[@id='column2']/ul/li[3]/a")).click();
         driver.findElement(By.xpath("/html/body/div[3]/div[3]/div[3]/ul/li[2]/a")).click();
-        //click on the categories
-        driver.findElement(By.xpath("/html/body/div/div[2]/div[3]/div[2]/div[1]/ul/li[4]/div")).click();
-        //select category
-        driver.findElement(By.xpath("/html/body/div/div[2]/div[3]/div[2]/div[1]/ul/li[4]/ul/li[4]/span")).click();
-
-        //double click on the category to add that to taxonomy
-        Actions action = new Actions(driver);
-        action.moveToElement(driver.findElement(By.xpath("//div[@id='tagger_1']/div[1]/ul/li[4]/ul/li[4]/span"))).doubleClick().build().perform();
-        driver.manage().timeouts().implicitlyWait(30,TimeUnit.SECONDS);
-        //select the primary category by drag n drop to primary tag area
-        WebElement element = driver.findElement(By.xpath("//div[@id='tagger_1']/div[2]/ul/li[4]/ul/li[4]/span"));
-        WebElement target = driver.findElement(By.xpath("//div[@id='primaryTag']/span"));
-        (new Actions(driver)).dragAndDrop(element, target).perform();
-        driver.manage().timeouts().implicitlyWait(50,TimeUnit.SECONDS);
-        driver.findElement(By.xpath("/html/body/div/div[2]/div[3]/button")).click();
+        dashBoardPage.addTaxonomy();
     }
 @When("^I go back to Edit Venue Page$")
     public void backToEditVenue()
@@ -179,25 +142,25 @@ public void backToLoginPage()
 @Given("^I am on the Venues Page$")
 public void onVenuesPage() {
     dashBoardPage.navigateToVenuesPage();
-    driver.manage().timeouts().implicitlyWait(30,TimeUnit.SECONDS);
+    driver.manage().timeouts().implicitlyWait(10,TimeUnit.SECONDS);
     Assert.assertTrue(utils.isTextPresent("Venues"));
 }
     @When("^I search for the venue with the Name as '(.*)' and Site as '(.*)'$")
     public void searchVenue(String name,String site) {
         driver.findElement(By.id("venue_filter_name")).sendKeys(name);
         utils.selectFromDropDown(By.id("venue_filter_site"), site);
-        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
     }
     @When("^I change the Event status as '(.*)'$")
     public void changeEventStatus(String Status)
     {
-        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         utils.selectFromDropDown(By.id("eventEdit_status"),Status);
     }
     @When("^I change the Venue status as '(.*)'$")
     public void changeVenueStatus(String Status)
     {
-        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         utils.selectFromDropDown(By.id("venueEdit_status"),Status);
     }
     @When("^I select status as '(.*)'$")
@@ -209,31 +172,24 @@ public void onVenuesPage() {
     public void selectUpdatedInLast(String UpdatedInLast)
     {
         utils.selectFromDropDown(By.id("venue_filter_updated_last"),UpdatedInLast);
-//        this.selectWithIndex(By.id("venue_filter_updated_last"),index);
-
         driver.findElement(By.xpath(".//*[@id='filterBox']/form/fieldset/div[4]/button")).click();
 
     }
     @When("^I select the recently created Venue with the name '(.*)'$")
     public void selectRecentlyAddedVenue(String name) {
     driver.findElement(By.partialLinkText(name)).click();
-    driver.manage().timeouts().implicitlyWait(30,TimeUnit.SECONDS);
+    driver.manage().timeouts().implicitlyWait(10,TimeUnit.SECONDS);
     }
 
-    //checkpoints for navigated to edit event or venue page
     @Then("^I should be navigate to the '(.*)' Page$")
     public void navigateToEditEventOrVenuePage(String editPage) {
         Assert.assertTrue(utils.isTextPresent(editPage));
 
     }
-//    @Then("^I should be navigate to the '(.*)' Page$")
-//    public void navigateToEditVenuePage(String editVenuePage) {
-//        Assert.assertTrue(utils.isTextPresent(editVenuePage));
-//    }
 
     @When("^I changes the BuildingNo as '(.*)' and Author as '(.*)' and Status as '(.*)'$")
     public void changeVenueDetails(String BuildingNo,String Author,String Status) throws InterruptedException {
-    driver.manage().timeouts().implicitlyWait(30,TimeUnit.SECONDS);
+    driver.manage().timeouts().implicitlyWait(10,TimeUnit.SECONDS);
         driver.findElement(By.id("venueEdit_building_no")).clear();
         driver.findElement(By.id("venueEdit_building_no")).sendKeys(BuildingNo);
         driver.findElement(By.id("venueEdit_author")).clear();
@@ -244,13 +200,14 @@ public void onVenuesPage() {
     @When("^I save the Venue$")
     public void saveVenue() {
     driver.findElement(By.id("form_submit")).click();
-    driver.manage().timeouts().implicitlyWait(30,TimeUnit.SECONDS);
+    driver.manage().timeouts().implicitlyWait(10,TimeUnit.SECONDS);
     }
 
     @Then("^I should see the message as '(.*)'$")
     public void EVFSavedMesssage(String message) {
-        driver.manage().timeouts().implicitlyWait(30,TimeUnit.SECONDS);
-        Assert.assertTrue(utils.isTextPresent(message));
+        driver.manage().timeouts().implicitlyWait(10,TimeUnit.SECONDS);
+
+            Assert.assertTrue(utils.isTextPresent(message));
     }
 
     @When("^I add a Event$")
@@ -258,7 +215,6 @@ public void onVenuesPage() {
         driver.findElement(By.linkText("Dashboard")).isDisplayed();
         DashBoardPage dashBoardPage=new DashBoardPage();
         dashBoardPage.navigateToEventsPage();
-        Thread.sleep(2000);
         try {
             driver.findElement(By.linkText("+ Add event")).click();
         } catch (Exception e) {
@@ -320,12 +276,6 @@ public void onVenuesPage() {
 
     }
 
-//    @Then("^I should navigate to the Edit Event Page$")
-//    public void navigateToEditEventPage() {
-//    Assert.assertTrue(driver.findElement(By.xpath("/html/body/div[1]/div[3]/h1")).getText().contains("Edit event"));
-//
-//    }
-
     @When("^I save the Event$")
     public void saveEvent() {
             driver.findElement(By.id("form_submit")).click();
@@ -348,4 +298,269 @@ public void onVenuesPage() {
         driver.findElement(By.id("eventEdit_author")).sendKeys(author);
         utils.selectFromDropDown(By.id("eventEdit_status"),Status);
     }
+
+
+    //Film
+
+    @When("^I add a Film$")
+    public void addFilm() {
+        driver.findElement(By.linkText("Dashboard")).isDisplayed();
+        DashBoardPage dashBoardPage=new DashBoardPage();
+        dashBoardPage.navigateToFilmsPage();
+        try {
+            driver.findElement(By.linkText("+ Add film")).click();
+        } catch (Exception e) {
+            System.out.println("Element Not Fount");
+        }
+    }
+
+    @When("^I supply the Film information$")
+    public void supplyFilmInfo(DataTable arg1) {
+        List<String> raw = Arrays.asList("British English", "Test Film", "Test Title", "Author", "4");
+        utils.selectFromDropDown(By.id("filmCreate_language"),raw.get(0));
+        // DataTable dataTable = DataTable.create(raw, Locale.getDefault(),"Language", "Name", "City", "Site");
+        String OriginialTitle= raw.get(1)+random;
+        driver.findElement(By.id("filmCreate_original_title")).sendKeys(OriginialTitle);
+        String title= raw.get(2)+random;
+        driver.findElement(By.id("filmCreate_title")).sendKeys(title);
+        driver.findElement(By.id("filmCreate_author")).sendKeys(raw.get(3));
+        utils.selectFromDropDown(By.id("filmCreate_editor_rating"),raw.get(4));
+   }
+    @Then("^the Film is created and should see message as '(.*)'$")
+    public void filmSavedMessage(String message) {
+
+        driver.manage().timeouts().implicitlyWait(10,TimeUnit.SECONDS);
+        Assert.assertTrue(utils.isTextPresent(message));
+
+    }
+
+    @When("^I add taxonomy for Film$")
+    public void I_add_taxonomy_for_Film() {
+      //select Taxonomy link
+      driver.findElement(By.xpath("/html/body/div[1]/div[3]/div[3]/ul/li[5]/a")).click();
+      //Add Primary Tag
+      dashBoardPage.addTaxonomy();
+
+    }
+
+    @When("^I go back to Edit Film Page$")
+    public void gotoEditFilmPage() {driver.findElement(By.linkText("Edit Film")).click();
+    }
+
+    @When("^I change the Film status as '(.*)'$")
+    public void changeFilmStatus(String status) {
+    utils.selectFromDropDown(By.id("filmEdit_status"),status);
+
+    }
+
+    @Given("^I am on the Films Page$")
+    public void onFilmsPage() {
+    driver.findElement(By.linkText("Films")).click();
+    utils.isTextPresent("Add Film");
+
+    }
+
+    @When("^I search for the Film '(.*)'$")
+    public void searchFilm(String film) {
+    driver.findElement(By.id("name")).sendKeys(film);
+    driver.findElement(By.xpath("//*[@id='form']/div[3]/button")).click();
+    }
+
+    @When("^I select the recently created Film '(.*)'$")
+    public void selectRecentlyAddedFilm(String recentFilm) {
+   driver.findElement(By.partialLinkText(recentFilm)).click();
+
+    }
+
+    @When("^I save the Film$")
+    public void saveFilm() {
+    driver.findElement(By.id("form_submit")).click();
+
+    }
+
+
+    @When("^I changes the Short Desc as '(.*) and Editor rating as '(.*)' and Author as '(.*)' and Status as '(.*)'$")
+    public void changeDetails(String shortdesc,String rating,String author,String status) {
+        driver.findElement(By.id("filmEdit_description")).clear();
+        driver.findElement(By.id("filmEdit_description")).sendKeys(shortdesc);
+        utils.selectFromDropDown(By.id("filmEdit_editor_rating"),rating);
+        driver.findElement(By.id("filmEdit_author")).clear();
+        driver.findElement(By.id("filmEdit_author")).sendKeys(author);
+        utils.selectFromDropDown(By.id("filmEdit_status"), status);
+
+   }
+//------------------Pages-------------------------------
+@Given("^I am on the Pages Page$")
+public void onThePages() {
+    driver.manage().timeouts().implicitlyWait(10,TimeUnit.SECONDS);
+   // driver.getCurrentUrl().
+driver.get(URL+"pages");
+Assert.assertTrue(driver.findElement(By.xpath("//*[@id=\"content\"]/h1/a")).isDisplayed());
+
 }
+
+    @When("^I add a Page$")
+    public void addPage() {
+driver.findElement(By.xpath("/html/body/div/div[3]/h1/a")).click();
+        Assert.assertTrue(utils.isTextPresent("New page"));
+
+    }
+    @When("^I supply the Page information$")
+    public void supplyPageInfo(DataTable arg1) {
+
+        List<String> raw = Arrays.asList("TestPageName","Test Title","Test SubTitle","UK - London","British English", "Feature");
+        if(utils.isElementPresent(By.id("pageCreate_alias")))
+        {
+        String pageName=raw.get(0)+random;
+        driver.findElement(By.id("pageCreate_alias")).sendKeys(pageName);
+        }
+        String pageTitle= raw.get(1)+random;
+        driver.findElement(By.id("pageCreate_title")) .sendKeys(pageTitle);
+        driver.findElement(By.id("pageCreate_description")).sendKeys(raw.get(2));
+        utils.selectFromDropDown(By.id("pageCreate_site"),raw.get(3));
+        utils.selectFromDropDown(By.id("pageCreate_locale"),raw.get(4));
+        utils.selectFromDropDown(By.id("pageCreate_type"),raw.get(5));
+        }
+    @When("^I add taxonomy for Page$")
+    public void pageTaxonomy() {
+
+        driver.findElement(By.linkText("Page set up")).click();
+        Assert.assertTrue(utils.isTextPresent("Set in taxonomy"));
+        driver.findElement(By.linkText("Set in taxonomy")).click();
+        dashBoardPage.addTaxonomy();
+    }
+
+    @When("^I go back to Edit page$")
+    public void backToEditPage() {
+
+        driver.findElement(By.linkText("Edit Page")).isDisplayed();
+        driver.findElement(By.linkText("Edit Page")).click();
+    }
+
+    @When("^I change the Page status as '(.*)'$")
+    public void changePageStatus(String status) {
+    driver.findElement(By.id("pageEdit_status")).sendKeys(status);
+
+    }
+
+    @When("^I search for the Page Site as '(.*)'$")
+    public void searchForPageSite(String pageSite) {
+    utils.selectFromDropDown(By.id("filter_site"), pageSite);
+
+    }
+
+    @When("^I select the recently created Page with the name '(.*)'$")
+    public void searchRecentlyAddedPage(String pageName) {
+    driver.findElement(By.partialLinkText(pageName)).click();
+
+    }
+
+    @When("^I changes event Subtitle as '(.*)' and status as '(.*)'$")
+    public void changeDetails1(String subtitle,String status) {
+        driver.findElement(By.id("pageEdit_description")).clear();
+        driver.findElement(By.id("pageEdit_description")).sendKeys(subtitle);
+        utils.selectFromDropDown(By.id("pageEdit_status"), status);
+    }
+
+    @When("^I save the Page$")
+    public void savePage() {driver.findElement(By.id("form_submit")).click();
+    }
+
+ //------------------Post--------------------
+ @Given("^I am on the Posts Page$")
+ public void onThePostsPage() {
+     driver.manage().timeouts().implicitlyWait(10,TimeUnit.SECONDS);
+     // driver.getCurrentUrl().
+     driver.get(URL+"posts");
+     Assert.assertTrue(driver.findElement(By.xpath("/html/body/div[3]/div/h1/a")).isDisplayed());
+ }
+
+    @Then("^I selects blog name '(.*)'$")
+    public void selectBlogName(String blogname) {
+    utils.selectFromDropDown(By.id("postList_blogs"),blogname);
+    }
+
+    @When("^I add a Post$")
+    public void addPost() {
+    driver.findElement(By.linkText("+ Add post")).click();
+
+    }
+
+    @When("^I supply postInformation$")
+    public void supplyPostInfo(DataTable arg1) {
+
+        List<String> raw = Arrays.asList("Test Post Title","Film","autotest1 (London - En)","Test Body Text");
+        String postTitle=raw.get(0)+random;
+        driver.findElement(By.id("postEdit_title")).sendKeys(postTitle);
+        utils.selectFromDropDown(By.id("postEdit_taxonomy"),raw.get(1));
+        utils.selectFromDropDown(By.id("postEdit_blogId"),raw.get(2));
+        String bodyText= raw.get(1)+random;
+//        driver.findElement(By.id("mce_21-body")).sendKeys(bodyText);
+//        driver.switchTo().frame("input-data_ifr");
+//        WebElement element = driver.findElement(By.id("tinymce"));
+//        System.out.println("Entering something in text input");
+//        element.sendKeys(Keys.CONTROL + "a");
+//        element.sendKeys("Test text");
+
+        driver.findElement(By.id("tinymce")).click();
+        driver.switchTo().activeElement().sendKeys("Hello!");;
+    }
+    @When("^I save the Post$")
+    public void savePost() {
+
+        driver.findElement(By.xpath("/html/body/div[3]/div/form/div[2]/div[1]/div[2]/div[1]/button")).click();
+        if(utils.isAlertPresent()){
+            driver.switchTo().alert();
+            driver.switchTo().alert().accept();
+            driver.switchTo().defaultContent();
+        }
+
+    }
+
+    @Then("^the Post is created and should see message as '(.*)'$")
+    public void postSavedMessage(String message) {
+        driver.manage().timeouts().implicitlyWait(10,TimeUnit.SECONDS);
+        Assert.assertTrue(utils.isTextPresent(message));
+
+    }
+
+    @When("^I go to '(.*)' Page$")
+    public void goToPostListPage(String page) {
+    driver.findElement(By.linkText(page)).click();
+    }
+
+    @Then("^I Should see recently added Post '(.*)'$")
+    public void verifyRecentlyAddedPost(String post) {
+        driver.manage().timeouts().implicitlyWait(10,TimeUnit.SECONDS);
+        Assert.assertTrue(utils.isTextPresent(post));
+
+    }
+
+    @When("^I selects recently added post '(.*)'$")
+    public void selectRecentlyAddedPost(String recentpost) {
+        driver.findElement(By.partialLinkText(recentpost)).click();
+
+    }
+
+    @When("^I changes post title as '(.*)' and Body Text as '(.*)'$")
+    public void changePostInfo(String posttitle,String bodytext) {
+        driver.findElement(By.id("postEdit_title")).sendKeys(posttitle);
+       driver.findElement(By.xpath("/html")).sendKeys(bodytext);
+    }
+
+    @When("^I '(.*)' the Post$")
+    public void updatePost(String update) {
+   if(update=="Save Draft")
+   {
+       driver.findElement(By.xpath("/html/body/div[3]/div/form/div[2]/div[1]/div[3]/button[1]")).click();
+   }else
+   {
+      driver.findElement(By.xpath("/html/body/div[3]/div/form/div[2]/div[1]/div[3]/button[2]")).click();
+   }
+
+    }
+
+
+
+
+   }
