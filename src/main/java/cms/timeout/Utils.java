@@ -26,7 +26,15 @@ public class Utils extends BaseClass{
         sel.selectByIndex(index);
 
     }
-
+    public boolean isAlertPresent(){
+        try{
+            driver.switchTo().alert();
+            return true;
+        }//try
+        catch(Exception e){
+            return false;
+        }//catch
+    }
 
 
     public static boolean isElementPresent(By element)
