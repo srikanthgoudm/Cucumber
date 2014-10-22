@@ -1,6 +1,6 @@
 @addVenue
 Feature: Add,Edit and delete a Venue in CMS
-#As a an Editor
+#As a an Admin
 #I want to see Venue Page
 #so that I can add edit and delete a Venue
 

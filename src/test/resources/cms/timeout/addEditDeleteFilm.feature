@@ -1,6 +1,6 @@
 @addFilm
 Feature: Add,Edit and delete a Film in CMS
-#As a an Editor
+#As a an Admin
 #I want to see Film Page
 #so that I can add edit and delete Film
 

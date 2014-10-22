@@ -1,14 +1,17 @@
 package cms.timeout;
 
+import com.opera.core.systems.OperaDriver;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
+import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.safari.SafariDriver;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -58,7 +61,7 @@ public abstract class BrowserFactory extends BaseClass{
     }
     protected static WebDriver startRemoteWebBrowser(String browser,String URL1) {
 
-        if (true) {
+        if (false) {
             try {
 
                 System.out.println("grid started...");
@@ -69,7 +72,6 @@ public abstract class BrowserFactory extends BaseClass{
 
                 // Create the connection to Sauce Labs to run the tests
                 driver = new RemoteWebDriver(new URL("http://timeoutdigital:b6315b1b-3640-4a38-aa72-54c4fa2ca570@ondemand.saucelabs.com:80/wd/hub"), caps);
-                //Open the URL
 
             } catch (Exception e) {
                 System.out.println(e.getMessage());
@@ -91,10 +93,18 @@ public abstract class BrowserFactory extends BaseClass{
                 }
                 else if(browser.equalsIgnoreCase("chrome"))
                 {
-                    //System.setProperty("webdriver.chrome.driver", "C:\\Automation\\chromedriver.exe");
-                    //  driver=new ChromeDriver();
-                    System.setProperty("webdriver.chrome.driver", "\\Users\\freelance\\Automation\\Chromeexe/\\chromedriver");
-                    driver=new ChromeDriver();
+                    System.setProperty("webdriver.chrome.driver", "C:\\Automation\\chromedriver.exe");
+                      driver=new ChromeDriver();
+               }else if(browser.equalsIgnoreCase("IE"))
+                {
+                    System.setProperty("webdriver.ie.driver", "C:\\Automation\\IEDriverServer.exe");
+                    driver=new InternetExplorerDriver();
+                }else if(browser.equalsIgnoreCase("Safari"))
+                {
+                   driver=new SafariDriver();
+                }else if(browser.equalsIgnoreCase("Opera"))
+                {
+                    driver=new OperaDriver();
                 }
                 else
                     throw new RuntimeException("Browser give "+browser+ " did not load..");

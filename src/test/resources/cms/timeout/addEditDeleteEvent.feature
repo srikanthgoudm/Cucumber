@@ -1,6 +1,6 @@
 @addEvent
 Feature: Add,Edit and delete an Event in CMS
-#As a an Editor
+#As a an Admin
 #I want to see Event Page
 #so that I can add edit and delete a Event
 
