@@ -77,10 +77,10 @@ public class Utils extends BaseClass{
                 driver.findElement(by).click();
             }
         }
-        sleep(5);
+        wait(5);
     }
 
-    public static void sleep(int i) {
+    public static void wait(int i) {
         try {
             Thread.sleep(i*2000);
         } catch (InterruptedException e) {

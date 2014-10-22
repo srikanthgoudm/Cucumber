@@ -1,6 +1,6 @@
 @addPage
 Feature: Add,Edit and delete an Page in CMS
-#As a an Editor
+#As a an Admin
 #I want to see CMS Pages
 #so that I can add edit and delete a Page
 

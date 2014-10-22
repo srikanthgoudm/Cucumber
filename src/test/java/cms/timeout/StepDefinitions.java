@@ -20,7 +20,10 @@ public class StepDefinitions {
 //     static WebDriver driver;
     WebDriver driver = BrowserFactory.getDriver();
     // Test Data -----------------------------------------------
+    //String username = "sri-editor", password = "srikanth";
     String username = "autotest-admin", password = "outtime99";
+
+
 //    String URL="http://admin.qa10.d/";
     String URL="http://admin.staging01.ldn3.timesout.net/";
 
@@ -33,7 +36,7 @@ public class StepDefinitions {
     @Before
     public void StartBrowser()throws MalformedURLException,InterruptedException {
         try {
-            BrowserFactory.StartBrowser("firefox", URL);
+            BrowserFactory.StartBrowser("Chrome", URL);
             driver = BrowserFactory.driver;
         } catch (Exception e) {
             e.printStackTrace();
@@ -56,7 +59,6 @@ public class StepDefinitions {
     @When("^I add a Venue$")
     public void addVenue() throws InterruptedException {
         driver.findElement(By.linkText("Dashboard")).isDisplayed();
-        DashBoardPage dashBoardPage=new DashBoardPage();
         dashBoardPage.navigateToVenuesPage();
         try {
             driver.findElement(By.linkText("+ Add venue")).click();
@@ -64,12 +66,10 @@ public class StepDefinitions {
             System.out.println("Element Not Fount");
         }
     }
-
     @When("^I supply the information$")
     public void supplyVenueInformation(DataTable arg1) throws InterruptedException {
         List<String> raw = Arrays.asList("UK - London","British English", "Srikanth", "London") ;
         utils.selectFromDropDown(By.id("venueCreate_site"),raw.get(0));
-       // DataTable dataTable = DataTable.create(raw, Locale.getDefault(),"Language", "Name", "City", "Site");
         utils.selectFromDropDown(By.id("venueCreate_language"),raw.get(1));
         try {
             String venueName= raw.get(2)+random;
@@ -465,13 +465,62 @@ driver.findElement(By.xpath("/html/body/div/div[3]/h1/a")).click();
     @When("^I save the Page$")
     public void savePage() {driver.findElement(By.id("form_submit")).click();
     }
+//--------------------------Blog----------------------------------
+
+    @Given("^I am on the Blogs Page$")
+    public void I_am_on_the_Blogs_Page() {
+        driver.get(URL+"blogs");
+        Assert.assertTrue(driver.findElement(By.xpath("/html/body/div[3]/div/h1/a")).isDisplayed());
+
+    }
+
+    @When("^I add a Blog$")
+    public void I_add_a_Blog() {
+driver.findElement(By.xpath("/html/body/div[3]/div/h1/a")).click();
+    }
+
+    @When("^I supply the Blog information$")
+    public void supplyBlogInformation(DataTable arg1) {
+   List<String> raw = Arrays.asList("TestBlogName","/london/blogs/","UK - London","British English");
+        String blogName=raw.get(0)+random;
+        driver.findElement(By.id("blogCreate_name")).sendKeys(blogName);
+        driver.findElement(By.id("blogCreate_slug")).sendKeys(raw.get(1));
+        utils.selectFromDropDown(By.id("blogCreate_site"),raw.get(2));
+        utils.selectFromDropDown(By.id("blogCreate_language"),raw.get(3));
+
+    }
+
+    @When("^I save blog$")
+    public void saveBlog() {
+        driver.findElement(By.xpath("/html/body/div[3]/div/form/div/div/button")).isDisplayed();
+        driver.findElement(By.xpath("/html/body/div[3]/div/form/div/div/button")).click();
+    }
+
+    @Then("^the Blog is created and should see message as '(.*)'$")
+    public void blogSavedMessage(String message) {
+    Assert.assertTrue(utils.isTextPresent(message));
+
+    }
+
+    @Then("^I should see recently added blog '(.*)' in the blog list$")
+    public void verifyRecentlyAddedBlog(String blogName) {
+        Assert.assertTrue(utils.isTextPresent(blogName));
+    }
 
  //------------------Post--------------------
  @Given("^I am on the Posts Page$")
  public void onThePostsPage() {
      driver.manage().timeouts().implicitlyWait(10,TimeUnit.SECONDS);
-     // driver.getCurrentUrl().
-     driver.get(URL+"posts");
+     // driver.getCurrentUrl()
+     try {
+         driver.findElement(By.linkText("Posts")).isDisplayed();
+         driver.findElement(By.linkText("Posts")).click();
+     }catch (Exception e)
+     {
+         System.out.println("Posts link not found");
+         driver.get(URL+"posts");
+     }
+
      Assert.assertTrue(driver.findElement(By.xpath("/html/body/div[3]/div/h1/a")).isDisplayed());
  }
 
@@ -489,32 +538,24 @@ driver.findElement(By.xpath("/html/body/div/div[3]/h1/a")).click();
     @When("^I supply postInformation$")
     public void supplyPostInfo(DataTable arg1) {
 
-        List<String> raw = Arrays.asList("Test Post Title","Film","autotest1 (London - En)","Test Body Text");
+        List<String> raw = Arrays.asList("Test Post Title","Movies","Chicago Blog (Chicago - En)","Test Body Text");
         String postTitle=raw.get(0)+random;
         driver.findElement(By.id("postEdit_title")).sendKeys(postTitle);
         utils.selectFromDropDown(By.id("postEdit_taxonomy"),raw.get(1));
         utils.selectFromDropDown(By.id("postEdit_blogId"),raw.get(2));
-        String bodyText= raw.get(1)+random;
-//        driver.findElement(By.id("mce_21-body")).sendKeys(bodyText);
-//        driver.switchTo().frame("input-data_ifr");
-//        WebElement element = driver.findElement(By.id("tinymce"));
-//        System.out.println("Entering something in text input");
-//        element.sendKeys(Keys.CONTROL + "a");
-//        element.sendKeys("Test text");
-
-        driver.findElement(By.id("tinymce")).click();
-        driver.switchTo().activeElement().sendKeys("Hello!");;
+//        String bodyText= raw.get(3)+random;
+        ((JavascriptExecutor)driver).executeScript("tinyMCE.activeEditor.setContent('<h1>This is Body Text Header</h1> Test Body Text')");
+//
     }
-    @When("^I save the Post$")
+    @When("^I save the Post and Publish$")
     public void savePost() {
-
         driver.findElement(By.xpath("/html/body/div[3]/div/form/div[2]/div[1]/div[2]/div[1]/button")).click();
         if(utils.isAlertPresent()){
             driver.switchTo().alert();
             driver.switchTo().alert().accept();
             driver.switchTo().defaultContent();
         }
-
+       driver.findElement(By.xpath("/html/body/div[3]/div/form/div[2]/div[1]/div[3]/button[2]")).click();
     }
 
     @Then("^the Post is created and should see message as '(.*)'$")
@@ -544,19 +585,36 @@ driver.findElement(By.xpath("/html/body/div/div[3]/h1/a")).click();
 
     @When("^I changes post title as '(.*)' and Body Text as '(.*)'$")
     public void changePostInfo(String posttitle,String bodytext) {
+        driver.findElement(By.id("postEdit_title")).clear();
         driver.findElement(By.id("postEdit_title")).sendKeys(posttitle);
-       driver.findElement(By.xpath("/html")).sendKeys(bodytext);
+        ((JavascriptExecutor)driver).executeScript("tinyMCE.activeEditor.setContent('Modified Test Body Text')");
     }
 
-    @When("^I '(.*)' the Post$")
-    public void updatePost(String update) {
-   if(update=="Save Draft")
-   {
-       driver.findElement(By.xpath("/html/body/div[3]/div/form/div[2]/div[1]/div[3]/button[1]")).click();
-   }else
-   {
-      driver.findElement(By.xpath("/html/body/div[3]/div/form/div[2]/div[1]/div[3]/button[2]")).click();
-   }
+    @When("^I Update the Post$")
+    public void updatePost() {
+        try {
+            driver.findElement(By.xpath("/html/body/div[3]/div/form/div[2]/div[1]/div[3]/button[2]")).isDisplayed();
+            driver.findElement(By.xpath("/html/body/div[3]/div/form/div[2]/div[1]/div[3]/button[2]")).click();
+        }catch (Exception e){
+            System.out.println("Can't find the Update button");
+        }
+    }
+
+    @When("^I Delete the Post$")
+    public void deletePost()
+    {
+        try {
+            driver.findElement(By.xpath("/html/body/div[3]/div/form/div[2]/div[1]/div[3]/button[1]")).isDisplayed();
+            driver.findElement(By.xpath("/html/body/div[3]/div/form/div[2]/div[1]/div[3]/button[1]")).click();
+            driver.findElement(By.xpath("/html/body/div[4]/div/div/div[2]")).isDisplayed();
+            driver.findElement(By.xpath("/html/body/div[4]/div/div/div[3]/a[1]")).click();
+        }catch (Exception e)
+        {
+            System.out.println("Can't find the Delete button");
+        }
+
+
+
 
     }
 
