@@ -443,9 +443,11 @@ driver.findElement(By.xpath("/html/body/div/div[3]/h1/a")).click();
 
     }
 
-    @When("^I search for the Page Site as '(.*)'$")
-    public void searchForPageSite(String pageSite) {
+    @When("^I search for the Page with Keyword '(.*)' and Site as '(.*)'$")
+    public void searchForPageSite(String keyword ,String pageSite) {
+    driver.findElement(By.id("filter_q")).sendKeys(keyword);
     utils.selectFromDropDown(By.id("filter_site"), pageSite);
+    driver.findElement(By.xpath("/html/body/div/div[3]/div[2]/form/fieldset/div[4]/button")).click();
 
     }
 
@@ -545,7 +547,7 @@ driver.findElement(By.xpath("/html/body/div[3]/div/h1/a")).click();
         utils.selectFromDropDown(By.id("postEdit_blogId"),raw.get(2));
 //        String bodyText= raw.get(3)+random;
         ((JavascriptExecutor)driver).executeScript("tinyMCE.activeEditor.setContent('<h1>This is Body Text Header</h1> Test Body Text')");
-//
+
     }
     @When("^I save the Post and Publish$")
     public void savePost() {
