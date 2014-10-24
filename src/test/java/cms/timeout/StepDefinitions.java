@@ -483,7 +483,7 @@ driver.findElement(By.xpath("/html/body/div[3]/div/h1/a")).click();
 
     @When("^I supply the Blog information$")
     public void supplyBlogInformation(DataTable arg1) {
-   List<String> raw = Arrays.asList("TestBlogName","/london/blogs/","UK - London","British English");
+   List<String> raw = Arrays.asList("Test BlogName","/london/blogs/","UK - London","British English");
         String blogName=raw.get(0)+random;
         driver.findElement(By.id("blogCreate_name")).sendKeys(blogName);
         driver.findElement(By.id("blogCreate_slug")).sendKeys(raw.get(1));

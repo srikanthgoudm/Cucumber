@@ -61,7 +61,7 @@ public abstract class BrowserFactory extends BaseClass{
     }
     protected static WebDriver startRemoteWebBrowser(String browser,String URL1) {
 
-        if (false) {
+        if (true) {
             try {
 
                 System.out.println("grid started...");
