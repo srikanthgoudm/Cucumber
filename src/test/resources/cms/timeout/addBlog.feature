@@ -11,9 +11,9 @@ Feature: Add a new Blog in CMS
     Given I am on the Blogs Page
     When I add a Blog
     And I supply the Blog information
-      |Blog Name    | Url Slug       | Site       | Language         |
-      |Test Blogname| /london/blogs/ |UK - London | British English  |
+      | Blog Name    | Url Slug       | Site       | Language         |
+      | Test BlogName| /london/blogs/ |UK - London | British English  |
     And I save blog
     Then the Blog is created and should see message as 'Your blog was saved successfully.'
     And I should be navigate to the 'Blog list' Page
-    And I should see recently added blog 'Test Blogname' in the blog list
+    And I should see recently added blog 'Test BlogName' in the blog list
