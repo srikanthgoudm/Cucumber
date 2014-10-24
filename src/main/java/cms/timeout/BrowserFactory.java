@@ -81,7 +81,6 @@ public abstract class BrowserFactory extends BaseClass {
                     firefoxprofile.setAssumeUntrustedCertificateIssuer(true);
                     firefoxprofile.setAcceptUntrustedCertificates(true);
                     driver = new FirefoxDriver(firefoxprofile);
-
                 } else if (browser.equalsIgnoreCase("chrome")) {
 
                     System.setProperty("webdriver.chrome.driver", "C:\\Automation\\chromedriver.exe");
