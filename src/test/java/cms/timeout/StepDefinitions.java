@@ -36,7 +36,7 @@ public class StepDefinitions {
     @Before
     public void StartBrowser()throws MalformedURLException,InterruptedException {
         try {
-            BrowserFactory.StartBrowser("Chrome", URL);
+            BrowserFactory.StartBrowser("firefox", URL);
             driver = BrowserFactory.driver;
         } catch (Exception e) {
             e.printStackTrace();
@@ -51,7 +51,6 @@ public class StepDefinitions {
     //------------LOGIN------------------
     @Given("^I am Logged-In$")
     public void loggedIn() {
-    driver.manage().timeouts().implicitlyWait(10,TimeUnit.SECONDS);
     loginPage.login(username, password);
     Assert.assertTrue(driver.findElement(By.linkText(username)).isDisplayed());
     }
@@ -581,8 +580,7 @@ driver.findElement(By.xpath("/html/body/div[3]/div/h1/a")).click();
 
     @When("^I selects recently added post '(.*)'$")
     public void selectRecentlyAddedPost(String recentpost) {
-        driver.findElement(By.partialLinkText(recentpost)).click();
-
+    driver.findElement(By.partialLinkText(recentpost)).click();
     }
 
     @When("^I changes post title as '(.*)' and Body Text as '(.*)'$")
