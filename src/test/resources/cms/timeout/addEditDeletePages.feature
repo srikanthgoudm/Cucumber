@@ -21,7 +21,6 @@ Feature: Add,Edit and delete an Page in CMS
     And I change the Page status as 'Complete'
     And I save it
 
-
   @editAndDeletePage
   Scenario Outline: I can able to find the newly added Pages in the list and I can Edit and Delete
     Given I am on the Pages Page

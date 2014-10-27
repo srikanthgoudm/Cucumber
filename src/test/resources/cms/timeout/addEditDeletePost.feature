@@ -33,7 +33,7 @@ Feature: Add,Edit and delete a Post
   Scenario: I can able to find the newly added Post in the Post list and I can Delete
     Given I am on the Posts Page
     Then I selects blog name 'Chicago Blog (Chicago - En)'
-    When I selects recently added post 'Test Post Title'
+    When I selects recently modified post 'Modified Post Title'
     Then I should be navigate to the 'Edit post' Page
     And I Delete the Post
     Then I should see the message as 'Your post was deleted successfully.'

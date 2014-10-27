@@ -205,7 +205,6 @@ public void onVenuesPage() {
     @Then("^I should see the message as '(.*)'$")
     public void EVFSavedMesssage(String message) {
         driver.manage().timeouts().implicitlyWait(10,TimeUnit.SECONDS);
-
             Assert.assertTrue(utils.isTextPresent(message));
     }
 
@@ -420,6 +419,8 @@ driver.findElement(By.xpath("/html/body/div/div[3]/h1/a")).click();
         utils.selectFromDropDown(By.id("pageCreate_locale"),raw.get(4));
         utils.selectFromDropDown(By.id("pageCreate_type"),raw.get(5));
         }
+
+
     @When("^I add taxonomy for Page$")
     public void pageTaxonomy() {
 
@@ -446,7 +447,7 @@ driver.findElement(By.xpath("/html/body/div/div[3]/h1/a")).click();
     public void searchForPageSite(String keyword ,String pageSite) {
     driver.findElement(By.id("filter_q")).sendKeys(keyword);
     utils.selectFromDropDown(By.id("filter_site"), pageSite);
-    driver.findElement(By.xpath("/html/body/div/div[3]/div[2]/form/fieldset/div[4]/button")).click();
+    driver.findElement(By.xpath("//*[@id=\"filterBox\"]/form/fieldset/div[5]/button")).click();
 
     }
 
@@ -579,8 +580,12 @@ driver.findElement(By.xpath("/html/body/div[3]/div/h1/a")).click();
     }
 
     @When("^I selects recently added post '(.*)'$")
-    public void selectRecentlyAddedPost(String recentpost) {
-    driver.findElement(By.partialLinkText(recentpost)).click();
+    public void selectRecentlyAddedPost(String recentPost) {
+    driver.findElement(By.partialLinkText(recentPost)).click();
+    }
+    @When("^I selects recently modified post '(.*)'$")
+    public void selectRecentlyModifiedPost(String recentPost) {
+        driver.findElement(By.partialLinkText(recentPost)).click();
     }
 
     @When("^I changes post title as '(.*)' and Body Text as '(.*)'$")
