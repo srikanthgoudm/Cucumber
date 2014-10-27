@@ -1,8 +1,8 @@
 @addEvent
 Feature: Add,Edit and delete an Event in CMS
-#As a an Editor
-#I want to see add edit and delete options
-#so that I can add edit and delete a Venue
+#As a an Admin
+#I want to see Event Page
+#so that I can add edit and delete a Event
 
   Background:
     Given I am Logged-In
@@ -19,8 +19,8 @@ Feature: Add,Edit and delete an Event in CMS
     And I go back to Edit event Page
     And I change the Event status as 'Complete'
     And I save it
-    And I logout
-    Then I should redirect to Login Page
+#    And I logout
+#    Then I should redirect to Login Page
 
   @editanDeleteEvent
   Scenario Outline: I can able to find the newly added Events in the list and I can Edit and Delete

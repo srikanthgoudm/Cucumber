@@ -26,7 +26,15 @@ public class Utils extends BaseClass{
         sel.selectByIndex(index);
 
     }
-
+    public boolean isAlertPresent(){
+        try{
+            driver.switchTo().alert();
+            return true;
+        }//try
+        catch(Exception e){
+            return false;
+        }//catch
+    }
 
 
     public static boolean isElementPresent(By element)
@@ -69,12 +77,12 @@ public class Utils extends BaseClass{
                 driver.findElement(by).click();
             }
         }
-        sleep(5);
+        wait(1000);
     }
 
-    public static void sleep(int i) {
+    public static void wait(int i) {
         try {
-            Thread.sleep(i*2000);
+            Thread.sleep(i);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
