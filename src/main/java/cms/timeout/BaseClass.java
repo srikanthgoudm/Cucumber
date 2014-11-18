@@ -1,6 +1,5 @@
 package cms.timeout;
 
-import cucumber.runtime.StepDefinition;
 import org.openqa.selenium.WebDriver;
 
 /**

@@ -52,12 +52,12 @@ driver.findElement(By.linkText("Events")).click();
 
         driver.findElement(By.xpath("/html/body/div/div[2]/div[3]/button")).click();
         driver.manage().timeouts().implicitlyWait(10,TimeUnit.SECONDS);
-        try {
-             utils.isTextPresent("Tagging updated.");
-        }catch (Exception e)
-        {
-            System.out.println("Taxonomy is not saving"+e.getMessage());
-        }
+//        try {
+//             utils.isTextPresent("Tagging updated.");
+//        }catch (Exception e)
+//        {
+//            System.out.println("Taxonomy is not saving"+e.getMessage());
+//        }
     }
 
 //    public void addFilmTaxonomy() {

@@ -36,4 +36,5 @@ Feature: Add,Edit and delete a Post
     When I selects recently modified post 'Modified Post Title'
     Then I should be navigate to the 'Edit post' Page
     And I Delete the Post
-    Then I should see the message as 'Your post was deleted successfully.'
+    Then I should see the message as 'Are you sure you want to delete this post?'
+    And I confirm the Delete

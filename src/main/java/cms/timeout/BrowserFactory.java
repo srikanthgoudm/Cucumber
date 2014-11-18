@@ -1,6 +1,7 @@
 package cms.timeout;
-
 import com.opera.core.systems.OperaDriver;
+import com.thoughtworks.selenium.DefaultSelenium;
+import com.thoughtworks.selenium.Selenium;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
@@ -13,7 +14,6 @@ import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.safari.SafariDriver;
-
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.concurrent.TimeUnit;
@@ -61,15 +61,21 @@ public abstract class BrowserFactory extends BaseClass {
 
                 System.out.println("grid started...");
                 // Create an object for Desired Capabilities
-                System.setProperty("webdriver.chrome.driver", "C:\\Automation\\chromedriver.exe");
-                DesiredCapabilities caps = DesiredCapabilities.firefox();
-                caps.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
+//                System.setProperty("webdriver.chrome.driver", "C:\\Automation\\chromedriver.exe");
+                DesiredCapabilities caps=DesiredCapabilities.firefox();
+//                DesiredCapabilities caps = new DesiredCapabilities();
+//                caps.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
 //                caps.setCapability("version", "3.0");
 //                caps.setCapability("platform", "Windows 8");
+//                caps.setCapability("browserName",System.getProperty("browser"));
 
+                Selenium selenium = new DefaultSelenium("ci02.d", 4444, "*firefox", "http://jenkins-ci.org/");
                 // Create the connection to Sauce Labs to run the tests
-                driver = new RemoteWebDriver(new URL("http://timeoutdigital:b6315b1b-3640-4a38-aa72-54c4fa2ca570@ondemand.saucelabs.com:80/wd/hub"), caps);
-
+//                driver = new RemoteWebDriver(new URL("http://timeoutdigital:b6315b1b-3640-4a38-aa72-54c4fa2ca570@ondemand.saucelabs.com:80/wd/hub"), caps);
+//                Selenium grid URL when accessed from Jenkins (ci02)
+              driver = new RemoteWebDriver(new URL("http://selenium02:4444/wd/hub"), caps);
+//                Jenkins (ci02) selenium grid URL when accessed from outside Jenkins (comment-out to use local grid)
+//                driver = new RemoteWebDriver(new URL("http://10.10.61.113:4444/wd/hub"), caps);
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }

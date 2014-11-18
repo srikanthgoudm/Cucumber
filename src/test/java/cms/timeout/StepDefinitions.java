@@ -1,5 +1,4 @@
 package cms.timeout;
-
 import cucumber.annotation.After;
 import cucumber.annotation.Before;
 import cucumber.annotation.en.Given;
@@ -8,7 +7,6 @@ import cucumber.annotation.en.When;
 import cucumber.table.DataTable;
 import org.junit.Assert;
 import org.openqa.selenium.*;
-import org.openqa.selenium.interactions.Actions;
 import java.net.MalformedURLException;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -23,9 +21,11 @@ public class StepDefinitions {
     //String username = "sri-editor", password = "srikanth";
     String username = "autotest-admin", password = "outtime99";
 
-
-//    String URL="http://admin.qa10.d/";
+//    String URL="http://admin.qa04.d/";
     String URL="http://admin.staging01.ldn3.timesout.net/";
+
+//    Properties prop=new Properties();
+//    String URL=System.getProperty("URL1");
 
     String random= String.valueOf(new Random().nextInt());
 
@@ -36,7 +36,7 @@ public class StepDefinitions {
     @Before
     public void StartBrowser()throws MalformedURLException,InterruptedException {
         try {
-            BrowserFactory.StartBrowser("firefox", URL);
+            BrowserFactory.StartBrowser("Firefox", URL);
             driver = BrowserFactory.driver;
         } catch (Exception e) {
             e.printStackTrace();
@@ -205,7 +205,10 @@ public void onVenuesPage() {
     @Then("^I should see the message as '(.*)'$")
     public void EVFSavedMesssage(String message) {
         driver.manage().timeouts().implicitlyWait(10,TimeUnit.SECONDS);
+
             Assert.assertTrue(utils.isTextPresent(message));
+
+
     }
 
     @When("^I add a Event$")
@@ -606,24 +609,20 @@ driver.findElement(By.xpath("/html/body/div[3]/div/h1/a")).click();
     }
 
     @When("^I Delete the Post$")
-    public void deletePost()
-    {
+    public void deletePost() {
         try {
             driver.findElement(By.xpath("/html/body/div[3]/div/form/div[2]/div[1]/div[3]/button[1]")).isDisplayed();
             driver.findElement(By.xpath("/html/body/div[3]/div/form/div[2]/div[1]/div[3]/button[1]")).click();
-            driver.findElement(By.xpath("/html/body/div[4]/div/div/div[2]")).isDisplayed();
-            driver.findElement(By.xpath("/html/body/div[4]/div/div/div[3]/a[1]")).click();
-        }catch (Exception e)
-        {
+
+        } catch (Exception e) {
             System.out.println("Can't find the Delete button");
         }
-
-
-
+    }
+        @Then("^I confirm the Delete$")
+        public void confirmDelete() {
+            driver.findElement(By.xpath("/html/body/div[4]/div/div/div[2]")).isDisplayed();
+            driver.findElement(By.xpath("/html/body/div[4]/div/div/div[3]/a[1]")).click();
+        }
 
     }
 
-
-
-
-   }
