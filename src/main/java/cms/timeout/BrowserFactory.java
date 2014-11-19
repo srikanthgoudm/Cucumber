@@ -69,7 +69,7 @@ public abstract class BrowserFactory extends BaseClass {
 //                caps.setCapability("platform", "Windows 8");
 //                caps.setCapability("browserName",System.getProperty("browser"));
 
-                Selenium selenium = new DefaultSelenium("ci02.d", 4444, "*firefox", "http://jenkins-ci.org/");
+//                Selenium selenium = new DefaultSelenium("ci02.d", 4444, "*firefox", "http://jenkins-ci.org/");
                 // Create the connection to Sauce Labs to run the tests
 //                driver = new RemoteWebDriver(new URL("http://timeoutdigital:b6315b1b-3640-4a38-aa72-54c4fa2ca570@ondemand.saucelabs.com:80/wd/hub"), caps);
 //                Selenium grid URL when accessed from Jenkins (ci02)

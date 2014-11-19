@@ -21,19 +21,17 @@ public class Utils extends BaseClass{
     }
     public static void selectFromDropDown1(By by, int index)
     {
-
         Select sel = new Select(driver.findElement(by));
         sel.selectByIndex(index);
-
     }
     public boolean isAlertPresent(){
         try{
             driver.switchTo().alert();
             return true;
-        }//try
+        }
         catch(Exception e){
             return false;
-        }//catch
+        }
     }
 
 

@@ -7,7 +7,6 @@ Feature: Add,Edit and delete a Venue in CMS
   Background:
     Given I am Logged-In
 
-
   Scenario: I can able to add a new venue
     When I add a Venue
     And I supply the information
