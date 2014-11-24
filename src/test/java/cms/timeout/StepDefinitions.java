@@ -21,7 +21,7 @@ public class StepDefinitions {
     //String username = "sri-editor", password = "srikanth";
     String username = "autotest-admin", password = "outtime99";
 
-//    String URL="http://admin.qa04.d/";
+//    String URL="http://admin.qa01.d/";
     String URL="http://admin.staging01.ldn3.timesout.net/";
 
 //    Properties prop=new Properties();
@@ -32,6 +32,11 @@ public class StepDefinitions {
     Utils utils=new Utils();
     DashBoardPage dashBoardPage=new DashBoardPage();
     LoginPage loginPage=new LoginPage();
+    VenuePage venuePage=new VenuePage();
+    EventPage eventPage=new EventPage();
+    Pages pages=new Pages();
+    PostsPage posts=new PostsPage();
+    FilmsPage filmsPage=new FilmsPage();
 
     @Before
     public void StartBrowser()throws MalformedURLException,InterruptedException {
@@ -55,36 +60,20 @@ public class StepDefinitions {
     Assert.assertTrue(driver.findElement(By.linkText(username)).isDisplayed());
     }
     //------------------ADD Venue-----------------------------
-    @When("^I add a Venue$")
-    public void addVenue() throws InterruptedException {
-        driver.findElement(By.linkText("Dashboard")).isDisplayed();
-        dashBoardPage.navigateToVenuesPage();
-        try {
-            driver.findElement(By.linkText("+ Add venue")).click();
-        } catch (Exception e) {
-            System.out.println("Element Not Fount");
-        }
-    }
-    @When("^I supply the information$")
-    public void supplyVenueInformation(DataTable arg1) throws InterruptedException {
-        List<String> raw = Arrays.asList("UK - London","British English", "Srikanth", "London") ;
-        utils.selectFromDropDown(By.id("venueCreate_site"),raw.get(0));
-        utils.selectFromDropDown(By.id("venueCreate_language"),raw.get(1));
-        try {
-            String venueName= raw.get(2)+random;
-            driver.findElement(By.id("venueCreate_name")).sendKeys(venueName);
-        }catch (Exception e)
-        {
-            System.out.println("We have found some similar sounding venues, please review them below before saving this venue ");
-        }
-        driver.findElement(By.id("venueCreate_city")).sendKeys(raw.get(3));
 
+    @When("^I add a Venue, I supply the information$")
+    public void supplyVenueInformation(DataTable arg1) throws InterruptedException {
+
+        List<String> raw = Arrays.asList("UK - London","British English", "AutoTestVenue ", "London") ;
+        venuePage.addVenue(raw.get(0),raw.get(1),raw.get(2),raw.get(3));
     }
 
     @When("^I save it$")
     public void save() {
         driver.findElement(By.id("form_submit")).click();
         if (driver.findElement(By.cssSelector("BODY")).getText().contains("We have found some similar sounding events, please review them below before saving this event")){
+            driver.findElement(By.id("form_submit")).click();}
+        if (driver.findElement(By.cssSelector("BODY")).getText().contains("We have found some similar sounding venues, please review them below before saving this venue")){
             driver.findElement(By.id("form_submit")).click();}
     }
 
@@ -112,13 +101,13 @@ public class StepDefinitions {
     @When("^I add taxonomy for Event")
     public void addTaxonomy1() throws InterruptedException {
          //click on taxonomy link
-        driver.findElement(By.xpath(".//*[@id='column2']/ul/li[3]/a")).click();
+        driver.findElement(By.xpath("//*[@id='column2']/ul/li[3]/a")).click();
        dashBoardPage.addTaxonomy();
     }
     @When("^I add taxonomy for Venue")
     public void addTaxonomy2() throws InterruptedException {
         //click on taxonomy link
-        driver.findElement(By.xpath("/html/body/div[3]/div[3]/div[3]/ul/li[2]/a")).click();
+        driver.findElement(By.xpath("//*[@id='column2']/ul/li[2]/a")).click();
         dashBoardPage.addTaxonomy();
     }
 @When("^I go back to Edit Venue Page$")
@@ -135,7 +124,7 @@ public void I_logout()
 @Then("^I should redirect to Login Page$")
 public void backToLoginPage()
 {
-    Assert.assertEquals("Login", driver.findElement(By.xpath(".//*[@id='content']/h1")).getText());
+    Assert.assertEquals("Login", driver.findElement(By.xpath("//*[@id='content']/h1")).getText());
 }
 // -----------------Edit Venue--------------------------------------
 @Given("^I am on the Venues Page$")
@@ -144,18 +133,11 @@ public void onVenuesPage() {
     driver.manage().timeouts().implicitlyWait(10,TimeUnit.SECONDS);
     Assert.assertTrue(utils.isTextPresent("Venues"));
 }
-    @When("^I search for the venue with the Name as '(.*)' and Site as '(.*)'$")
-    public void searchVenue(String name,String site) {
-        driver.findElement(By.id("venue_filter_name")).sendKeys(name);
-        utils.selectFromDropDown(By.id("venue_filter_site"), site);
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+    @When("^I search venue with the Name '(.*)',Site '(.*)' and UpdatedInLast '(.*)'$")
+    public void searchVenue(String name,String site,String UpdatedInLast) {
+        venuePage.searchVenue(name, site, UpdatedInLast);
     }
-    @When("^I change the Event status as '(.*)'$")
-    public void changeEventStatus(String Status)
-    {
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        utils.selectFromDropDown(By.id("eventEdit_status"),Status);
-    }
+
     @When("^I change the Venue status as '(.*)'$")
     public void changeVenueStatus(String Status)
     {
@@ -167,13 +149,7 @@ public void onVenuesPage() {
     {
         utils.selectFromDropDown(By.id("venue_filter_status"),Status);
     }
-    @When("^I selects UpdatedInLast as '(.*)'$")
-    public void selectUpdatedInLast(String UpdatedInLast)
-    {
-        utils.selectFromDropDown(By.id("venue_filter_updated_last"),UpdatedInLast);
-        driver.findElement(By.xpath(".//*[@id='filterBox']/form/fieldset/div[4]/button")).click();
 
-    }
     @When("^I select the recently created Venue with the name '(.*)'$")
     public void selectRecentlyAddedVenue(String name) {
     driver.findElement(By.partialLinkText(name)).click();
@@ -211,32 +187,18 @@ public void onVenuesPage() {
 
     }
 
-    @When("^I add a Event$")
-    public void addEvent() throws InterruptedException {
-        driver.findElement(By.linkText("Dashboard")).isDisplayed();
-        DashBoardPage dashBoardPage=new DashBoardPage();
-        dashBoardPage.navigateToEventsPage();
-        try {
-            driver.findElement(By.linkText("+ Add event")).click();
-        } catch (Exception e) {
-            System.out.println("Element Not Fount");
-        }
-    }
-    @When("^I supply information$")
+    @When("^I add an Event,I supply the information$")
     public void supplyEventInfo(DataTable arg1) {
-        List<String> raw = Arrays.asList("British English", "Test Event", "UK - London");
-        utils.selectFromDropDown(By.id("eventCreate_site"),raw.get(2));
-        // DataTable dataTable = DataTable.create(raw, Locale.getDefault(),"Language", "Name", "City", "Site");
-        utils.selectFromDropDown(By.id("eventCreate_language"),raw.get(0));
-        try {
-            String a= raw.get(1)+random;
-            driver.findElement(By.id("eventCreate_name")).clear();
-            driver.findElement(By.id("eventCreate_name")).sendKeys(a);
-        }catch (Exception e)
-        {
-            System.out.println("We have found some similar sounding events, please review them below before saving this event ");
-        }
 
+        List<String> raw = Arrays.asList("British English", "Test Event", "UK - London");
+        eventPage.addEvent(raw.get(2),raw.get(0),raw.get(1));
+
+    }
+    @When("^I change the Event status as '(.*)'$")
+    public void changeEventStatus(String Status)
+    {
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        utils.selectFromDropDown(By.id("eventEdit_status"),Status);
     }
     @When("^I go back to Edit event Page$")
     public void backToEditEventPage() {
@@ -250,25 +212,12 @@ public void onVenuesPage() {
         Assert.assertTrue(utils.isTextPresent("Events"));
     }
 
-    @When("^I search for the Event with the Name as '(.*)' and Site as '(.*)'$")
-    public void searchEvent(String name,String site) {
-        driver.findElement(By.id("event_filter_name")).clear();
-        driver.findElement(By.id("event_filter_name")).sendKeys(name);
-        utils.selectFromDropDown(By.id("event_filter_site"), site);
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-    }
-
-    @When("^I select the status as '(.*)'$")
-    public void selectStatus2(String status) {
-    utils.selectFromDropDown(By.id("event_filter_status"),status);
+    @When("^I search an Event with the Name '(.*)',Site '(.*)',status '(.*)',UpdatedInLast '(.*)'$")
+    public void searchEvent(String name,String site,String status,String UpdatedInLast) {
+        eventPage.searchEvent(name,site,status,UpdatedInLast);
 
     }
 
-    @When("^I select UpdatedInLast as '(.*)'$")
-    public void selectUpdatedInLast2(String UpdatedInLast) {
-        utils.selectFromDropDown(By.id("event_filter_updated_last"),UpdatedInLast);
-        driver.findElement(By.xpath(".//*[@id='filterBox']/form/fieldset/div[4]/button")).click();
-    }
 
     @When("^I select the recently created Event with the name '(.*)'$")
     public void selectRecentlyAddedEvent(String name) {
@@ -303,29 +252,10 @@ public void onVenuesPage() {
 
     //Film
 
-    @When("^I add a Film$")
-    public void addFilm() {
-        driver.findElement(By.linkText("Dashboard")).isDisplayed();
-        DashBoardPage dashBoardPage=new DashBoardPage();
-        dashBoardPage.navigateToFilmsPage();
-        try {
-            driver.findElement(By.linkText("+ Add film")).click();
-        } catch (Exception e) {
-            System.out.println("Element Not Fount");
-        }
-    }
-
-    @When("^I supply the Film information$")
+    @When("^I add a Film,I supply the information$")
     public void supplyFilmInfo(DataTable arg1) {
         List<String> raw = Arrays.asList("British English", "Test Film", "Test Title", "Author", "4");
-        utils.selectFromDropDown(By.id("filmCreate_language"),raw.get(0));
-        // DataTable dataTable = DataTable.create(raw, Locale.getDefault(),"Language", "Name", "City", "Site");
-        String OriginialTitle= raw.get(1)+random;
-        driver.findElement(By.id("filmCreate_original_title")).sendKeys(OriginialTitle);
-        String title= raw.get(2)+random;
-        driver.findElement(By.id("filmCreate_title")).sendKeys(title);
-        driver.findElement(By.id("filmCreate_author")).sendKeys(raw.get(3));
-        utils.selectFromDropDown(By.id("filmCreate_editor_rating"),raw.get(4));
+        filmsPage.addFilm(raw.get(0), raw.get(1), raw.get(2), raw.get(3), raw.get(4));
    }
     @Then("^the Film is created and should see message as '(.*)'$")
     public void filmSavedMessage(String message) {
@@ -338,7 +268,7 @@ public void onVenuesPage() {
     @When("^I add taxonomy for Film$")
     public void I_add_taxonomy_for_Film() {
       //select Taxonomy link
-      driver.findElement(By.xpath("/html/body/div[1]/div[3]/div[3]/ul/li[5]/a")).click();
+      driver.findElement(By.xpath("//*[@id='column2']/ul/li[5]/a")).click();
       //Add Primary Tag
       dashBoardPage.addTaxonomy();
 
@@ -363,8 +293,7 @@ public void onVenuesPage() {
 
     @When("^I search for the Film '(.*)'$")
     public void searchFilm(String film) {
-    driver.findElement(By.id("name")).sendKeys(film);
-    driver.findElement(By.xpath("//*[@id='form']/div[3]/button")).click();
+    filmsPage.searchFilm(film);
     }
 
     @When("^I select the recently created Film '(.*)'$")
@@ -400,27 +329,10 @@ Assert.assertTrue(driver.findElement(By.xpath("//*[@id=\"content\"]/h1/a")).isDi
 
 }
 
-    @When("^I add a Page$")
-    public void addPage() {
-driver.findElement(By.xpath("/html/body/div/div[3]/h1/a")).click();
-        Assert.assertTrue(utils.isTextPresent("New page"));
-
-    }
-    @When("^I supply the Page information$")
+    @When("^I add a Page,I supply the information$")
     public void supplyPageInfo(DataTable arg1) {
-
         List<String> raw = Arrays.asList("TestPageName","Test Title","Test SubTitle","UK - London","British English", "Feature");
-        if(utils.isElementPresent(By.id("pageCreate_alias")))
-        {
-        String pageName=raw.get(0)+random;
-        driver.findElement(By.id("pageCreate_alias")).sendKeys(pageName);
-        }
-        String pageTitle= raw.get(1)+random;
-        driver.findElement(By.id("pageCreate_title")) .sendKeys(pageTitle);
-        driver.findElement(By.id("pageCreate_description")).sendKeys(raw.get(2));
-        utils.selectFromDropDown(By.id("pageCreate_site"),raw.get(3));
-        utils.selectFromDropDown(By.id("pageCreate_locale"),raw.get(4));
-        utils.selectFromDropDown(By.id("pageCreate_type"),raw.get(5));
+        pages.addPage(raw.get(0),raw.get(1),raw.get(2),raw.get(3),raw.get(4),raw.get(5));
         }
 
 
@@ -448,9 +360,7 @@ driver.findElement(By.xpath("/html/body/div/div[3]/h1/a")).click();
 
     @When("^I search for the Page with Keyword '(.*)' and Site as '(.*)'$")
     public void searchForPageSite(String keyword ,String pageSite) {
-    driver.findElement(By.id("filter_q")).sendKeys(keyword);
-    utils.selectFromDropDown(By.id("filter_site"), pageSite);
-    driver.findElement(By.xpath("//*[@id=\"filterBox\"]/form/fieldset/div[5]/button")).click();
+    pages.searchPage(keyword,pageSite);
 
     }
 
@@ -475,7 +385,7 @@ driver.findElement(By.xpath("/html/body/div/div[3]/h1/a")).click();
     @Given("^I am on the Blogs Page$")
     public void I_am_on_the_Blogs_Page() {
         driver.get(URL+"blogs");
-        Assert.assertTrue(driver.findElement(By.xpath("/html/body/div[3]/div/h1/a")).isDisplayed());
+        Assert.assertTrue(driver.findElement(By.xpath("/html/body/div[3]/div/h1")).isDisplayed());
 
     }
 
@@ -525,7 +435,6 @@ driver.findElement(By.xpath("/html/body/div[3]/div/h1/a")).click();
          System.out.println("Posts link not found");
          driver.get(URL+"posts");
      }
-
      Assert.assertTrue(driver.findElement(By.xpath("/html/body/div[3]/div/h1/a")).isDisplayed());
  }
 
@@ -533,24 +442,17 @@ driver.findElement(By.xpath("/html/body/div[3]/div/h1/a")).click();
     public void selectBlogName(String blogname) {
     utils.selectFromDropDown(By.id("postList_blogs"),blogname);
     }
-
-    @When("^I add a Post$")
-    public void addPost() {
-    driver.findElement(By.linkText("+ Add post")).click();
-
+    @When("^I search a Post in blog '(.*)' and selects recently added post '(.*)'$")
+    public void searchRecentPost(String blogName,String recentPost)
+    {
+      posts.searchPost(blogName,recentPost);
     }
 
-    @When("^I supply postInformation$")
+   @When("^I add a Post,I supply the Information$")
     public void supplyPostInfo(DataTable arg1) {
 
         List<String> raw = Arrays.asList("Test Post Title","Movies","Chicago Blog (Chicago - En)","Test Body Text");
-        String postTitle=raw.get(0)+random;
-        driver.findElement(By.id("postEdit_title")).sendKeys(postTitle);
-        utils.selectFromDropDown(By.id("postEdit_taxonomy"),raw.get(1));
-        utils.selectFromDropDown(By.id("postEdit_blogId"),raw.get(2));
-//        String bodyText= raw.get(3)+random;
-        ((JavascriptExecutor)driver).executeScript("tinyMCE.activeEditor.setContent('<h1>This is Body Text Header</h1> Test Body Text')");
-
+        posts.addPost(raw.get(0),raw.get(1),raw.get(2),raw.get(3));
     }
     @When("^I save the Post and Publish$")
     public void savePost() {
@@ -582,14 +484,7 @@ driver.findElement(By.xpath("/html/body/div[3]/div/h1/a")).click();
 
     }
 
-    @When("^I selects recently added post '(.*)'$")
-    public void selectRecentlyAddedPost(String recentPost) {
-    driver.findElement(By.partialLinkText(recentPost)).click();
-    }
-    @When("^I selects recently modified post '(.*)'$")
-    public void selectRecentlyModifiedPost(String recentPost) {
-        driver.findElement(By.partialLinkText(recentPost)).click();
-    }
+
 
     @When("^I changes post title as '(.*)' and Body Text as '(.*)'$")
     public void changePostInfo(String posttitle,String bodytext) {

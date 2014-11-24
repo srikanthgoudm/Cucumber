@@ -8,8 +8,7 @@ Feature: Add,Edit and delete an Event in CMS
     Given I am Logged-In
 
   Scenario: I can able to add a new Event
-    When I add a Event
-    And I supply information
+    When I add an Event,I supply the information
       | Language         | Name      | Site|
       | British English  | Test Event | UK - London |
     And I save it
@@ -25,9 +24,7 @@ Feature: Add,Edit and delete an Event in CMS
   @editanDeleteEvent
   Scenario Outline: I can able to find the newly added Events in the list and I can Edit and Delete
     Given I am on the Events Page
-    When I search for the Event with the Name as 'Test Event' and Site as 'UK - London'
-    And I select the status as 'Complete'
-    And I select UpdatedInLast as 'Week'
+    When I search an Event with the Name 'Test Event',Site 'UK - London',status 'Complete',UpdatedInLast 'Week'
     And I select the recently created Event with the name 'Test Event'
     Then I should be navigate to the 'Edit event' Page
     When I changes event url as 'http://www.testurl.com' and ticket url as 'http://www.ticketmaster.co.uk'

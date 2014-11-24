@@ -8,8 +8,7 @@ Feature: Add,Edit and delete a Film in CMS
     Given I am Logged-In
 
   Scenario: I can able to add a new Film
-    When I add a Film
-    And I supply the Film information
+    When I add a Film,I supply the information
       | Language        | Original Title | Title      | Author   | Editorial Rating|
       | British English | Test Film      | Test Title | Srikanth | 3               |
     And I save it

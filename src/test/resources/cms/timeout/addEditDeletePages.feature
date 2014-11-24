@@ -9,8 +9,7 @@ Feature: Add,Edit and delete an Page in CMS
 
   Scenario: I can able to add a new Page
     Given I am on the Pages Page
-    When I add a Page
-    And I supply the Page information
+    When I add a Page,I supply the information
      |Page Name      |Page Title | Sub Title     | Site       | Language         | Page Type|
      |Test Page Name |Test Title | Test Sub Title|UK - London | British English  | Feature |
     And I save it

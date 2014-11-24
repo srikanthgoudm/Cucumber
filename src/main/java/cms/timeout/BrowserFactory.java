@@ -73,9 +73,9 @@ public abstract class BrowserFactory extends BaseClass {
                 // Create the connection to Sauce Labs to run the tests
 //                driver = new RemoteWebDriver(new URL("http://timeoutdigital:b6315b1b-3640-4a38-aa72-54c4fa2ca570@ondemand.saucelabs.com:80/wd/hub"), caps);
 //                Selenium grid URL when accessed from Jenkins (ci02)
-              driver = new RemoteWebDriver(new URL("http://selenium02:4444/wd/hub"), caps);
+//              driver = new RemoteWebDriver(new URL("http://selenium02:4444/wd/hub"), caps);
 //                Jenkins (ci02) selenium grid URL when accessed from outside Jenkins (comment-out to use local grid)
-//                driver = new RemoteWebDriver(new URL("http://10.10.61.113:4444/wd/hub"), caps);
+                driver = new RemoteWebDriver(new URL("http://10.10.61.113:4444/wd/hub"), caps);
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
