@@ -21,7 +21,7 @@ public class StepDefinitions {
     //String username = "sri-editor", password = "srikanth";
     String username = "autotest-admin", password = "outtime99";
 
-//    String URL="http://admin.qa01.d/";
+//   String URL="http://admin.qa06.d/";
     String URL="http://admin.staging01.ldn3.timesout.net/";
 
 //    Properties prop=new Properties();
@@ -329,12 +329,22 @@ Assert.assertTrue(driver.findElement(By.xpath("//*[@id=\"content\"]/h1/a")).isDi
 
 }
 
-    @When("^I add a Page,I supply the information$")
-    public void supplyPageInfo(DataTable arg1) {
-        List<String> raw = Arrays.asList("TestPageName","Test Title","Test SubTitle","UK - London","British English", "Feature");
-        pages.addPage(raw.get(0),raw.get(1),raw.get(2),raw.get(3),raw.get(4),raw.get(5));
-        }
+//    @When("^I add a Page,I supply the information$")
+//    public void supplyPageInfo(DataTable arg1) {
+//        List<String> raw = Arrays.asList("TestPageName","Test Title","Test SubTitle","UK - London","British English", "Feature");
+//        pages.addPage(raw.get(0),raw.get(1),raw.get(2),raw.get(3),raw.get(4),raw.get(5));
+//        }
 
+    @When("^I add a Page,I supply '(.*)','(.*)','(.*)','(.*)','(.*)','(.*)'$")
+    public void supplyPageInfo(String pageName,String title,String subTitle,String site,String language,String pageType)
+    {
+        pages.addPage(pageName,title,subTitle,site,language,pageType);
+    }
+    @Then("^I should see the '(.*)' Tab$")
+    public void confirmFeatureTab(String tab)
+    {
+        Assert.assertTrue(driver.findElement(By.linkText(tab)).isDisplayed());
+    }
 
     @When("^I add taxonomy for Page$")
     public void pageTaxonomy() {
@@ -358,9 +368,9 @@ Assert.assertTrue(driver.findElement(By.xpath("//*[@id=\"content\"]/h1/a")).isDi
 
     }
 
-    @When("^I search for the Page with Keyword '(.*)' and Site as '(.*)'$")
-    public void searchForPageSite(String keyword ,String pageSite) {
-    pages.searchPage(keyword,pageSite);
+    @When("^I search for the Page with Keyword '(.*)',Site as '(.*)' and Status as '(.*)'$")
+    public void searchForPageSite(String keyword ,String pageSite,String status) {
+    pages.searchPage(keyword,pageSite,status);
 
     }
 
@@ -421,6 +431,41 @@ driver.findElement(By.xpath("/html/body/div[3]/div/h1/a")).click();
     public void verifyRecentlyAddedBlog(String blogName) {
         Assert.assertTrue(utils.isTextPresent(blogName));
     }
+
+ //------------Feature package superlists---------------
+
+    @Then("^I should see Category,Super list Fields and Create list Option in Feature list tab$")
+    public void featurelsitPageItems()
+    {
+        driver.findElement(By.linkText("Feature list")).click();
+        Assert.assertTrue(utils.isTextPresent("Category"));
+        Assert.assertTrue(utils.isTextPresent("Superlist"));
+        Assert.assertTrue(utils.isElementPresent(By.id("category_package_01")));
+        Assert.assertTrue(utils.isElementPresent(By.id("superlist_id_package_01")));
+        Assert.assertTrue(utils.isElementPresent(By.id("create_new_package_01")));
+    }
+    @When("^I create a list, I supply category name as '(.*)' and superlist as '(.*)'$")
+    public void supplySuperlistItems(String category,String superlist)
+    {
+        driver.findElement(By.id("category_package_01")).sendKeys(category);
+        driver.manage().timeouts().implicitlyWait(50, TimeUnit.SECONDS);
+//        List<WebElement> lstobj =  driver.findElements(By.xpath("//*[@id='category_package_01\']"));
+//
+//        System.out.println(lstobj.size());
+//
+//        for (int i = 0; i<lstobj.size();i++)
+//        {
+//            String p= lstobj.get(i).getText();
+//            System.out.println(p);
+//        }
+       utils.selectFromDropDown1(By.id("ui-active-menuitem"),1);
+        driver.findElement(By.id("superlist_id_package_01")).sendKeys(superlist);
+        utils.selectFromDropDown1(By.id("ui-active-menuitem"),1);
+    }
+
+    @When("^Save the list$")
+
+
 
  //------------------Post--------------------
  @Given("^I am on the Posts Page$")

@@ -64,10 +64,11 @@ public abstract class BrowserFactory extends BaseClass {
 //                System.setProperty("webdriver.chrome.driver", "C:\\Automation\\chromedriver.exe");
                 DesiredCapabilities caps=DesiredCapabilities.firefox();
 //                DesiredCapabilities caps = new DesiredCapabilities();
-//                caps.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
-//                caps.setCapability("version", "3.0");
-//                caps.setCapability("platform", "Windows 8");
+                caps.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
+                caps.setCapability("version", "3.0");
+                caps.setCapability("platform", "Windows 8");
 //                caps.setCapability("browserName",System.getProperty("browser"));
+                caps.setCapability("browserName","firefox");
 
                 Selenium selenium = new DefaultSelenium("ci02.d", 4444, "*firefox", "http://jenkins-ci.org/");
                 // Create the connection to Sauce Labs to run the tests

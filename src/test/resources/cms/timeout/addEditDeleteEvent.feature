@@ -11,6 +11,7 @@ Feature: Add,Edit and delete an Event in CMS
     When I add an Event,I supply the information
       | Language         | Name      | Site|
       | British English  | Test Event | UK - London |
+#      |American English  | Test Event | China - Shanghai |
     And I save it
     Then the Event is created and should see message as 'The event was created successfully.'
     And I should be navigate to the 'Edit event' Page

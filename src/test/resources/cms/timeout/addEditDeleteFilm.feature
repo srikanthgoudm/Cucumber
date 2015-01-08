@@ -10,7 +10,8 @@ Feature: Add,Edit and delete a Film in CMS
   Scenario: I can able to add a new Film
     When I add a Film,I supply the information
       | Language        | Original Title | Title      | Author   | Editorial Rating|
-      | British English | Test Film      | Test Title | Srikanth | 3               |
+      | British English | Test Film | Test Title | Srikanth | 3               |
+#      | American English| Test Film - US | Test Title | Sriakanth| 4               |
     And I save it
     Then the Film is created and should see message as 'The film was created successfully.'
     And I should be navigate to the 'Edit film' Page

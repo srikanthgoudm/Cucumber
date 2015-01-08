@@ -13,11 +13,13 @@ import java.util.Random;
 public class Pages extends BaseClass{
     Utils utils=new Utils();
     String random= String.valueOf(new Random().nextInt());
-    public void searchPage(String keyword,String pageSite)
+    public void searchPage(String keyword,String pageSite,String status)
     {
         driver.findElement(By.id("filter_q")).sendKeys(keyword);
         utils.selectFromDropDown(By.id("filter_site"), pageSite);
+        utils.selectFromDropDown(By.id("filter_status"),status);
         driver.findElement(By.xpath("//*[@id=\"filterBox\"]/form/fieldset/div[5]/button")).click();
+
     }
 
     public void addPage(String pageName,String title,String subTitle,String site,String language,String pageType)
