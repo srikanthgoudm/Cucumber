@@ -19,16 +19,16 @@ Feature: Add Feature Page,Feature Package and Edit,Delete a Feature Page in CMS
     And I save it
     Examples:
       |Page Name       |Page Title | Sub Title     | Site          | Language         | Page Type|
-      |TestFeaturePage |Test Feature | Test Sub Title|UK - London    | British English  | Feature |
-      |TestFeaturePage |Test Feature | Test Sub Title|US - Las Vegas | American English | Feature |
-#      |TestFeaturePage |Test Feature | Test Sub Title|China - Shanghai | American English | Feature |
-      |Test Package      |Test Title | Test Sub Title|UK - London    | British English  | Package |
+#      |TestFeaturePage |Test Feature | Test Sub Title|UK - London    | British English  | Feature |
+#      |TestFeaturePage |Test Feature | Test Sub Title|US - Las Vegas | American English | Feature |
+      |TestFeaturePage |Test Feature | Test Sub Title|Japan - Tokyo | American English | Feature |
+#      |Test Package      |Test Title | Test Sub Title|UK - London    | British English  | Package |
 
 
   @editAndDeletePage
   Scenario Outline: I can able to find the newly added Pages in the list and I can Edit and Delete
     Given I am on the Pages Page
-    When I search for the Page with Keyword 'Test Feature',Site as 'UK - London' and Status as 'Complete'
+    When I search for the Page with Keyword 'Test Feature',Site as 'Japan - Tokyo' and Status as 'Complete'
     And I select the recently created Page with the name 'Test Feature'
     Then I should be navigate to the 'Edit page' Page
     When I changes event Subtitle as '<subtitle>' and status as '<Status>'

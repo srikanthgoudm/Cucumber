@@ -51,7 +51,12 @@
             <artifactId>cucumber-jvm-deps</artifactId>
             <version>1.0.3</version>
         </dependency>
-            
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>4.11</version>
+                <scope>test</scope>
+            </dependency>
         <dependency>
             <groupId>info.cukes</groupId>
             <artifactId>cucumber-jvm</artifactId>
@@ -63,6 +68,11 @@
             <artifactId>gherkin-jvm-deps</artifactId>
             <version>1.0.2</version>
         </dependency>
+            <dependency>
+                <groupId>org.apache.maven.surefire</groupId>
+                <artifactId>surefire-junit47</artifactId>
+                <version>2.18.1</version>
+            </dependency>
     </dependencies>
 
     <build>
@@ -104,7 +114,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.10</version>
+                <version>2.18.1</version>
                 <configuration>
                     <!-- INCLUDE ALL TEST SCRIPT FILES -->
                     <includes>
