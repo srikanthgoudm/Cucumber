@@ -22,7 +22,7 @@ Examples:
   |Site| Language|Event      |
   |UK - London |British English|AutoTestEventLondon |
   |South Korea - Seoul|American English|AutoTestEventSeoul|
-  |American English  | Test Event | China - Shanghai |
+  |China - Shanghai |American English  |AutoTestEventShanghai|
 
   @editanDeleteEvent
   Scenario Outline: I can able to find the newly added Events in the list and I can Edit and Delete
