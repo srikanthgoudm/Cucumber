@@ -13,12 +13,13 @@ public class VenuePage extends BaseClass{
     DashBoardPage dashBoardPage=new DashBoardPage();
     Utils utils=new Utils();
     String random= String.valueOf(new Random().nextInt());
-    public void searchVenue(String name,String site,String UpdatedInLast)
+    public void searchVenue(String name,String site,String Status,String UpdatedInLast)
     {
         driver.findElement(By.id("venue_filter_name")).sendKeys(name);
         utils.selectFromDropDown(By.id("venue_filter_site"), site);
+        utils.selectFromDropDown(By.id("venue_filter_status"),Status);
         utils.selectFromDropDown(By.id("venue_filter_updated_last"),UpdatedInLast);
-        driver.findElement(By.xpath("//*[@id='filterBox']/form/fieldset/div[4]/button")).click();
+        driver.findElement(By.xpath("//button[@value='Filter']")).click();
     }
 
     public void addVenue(String siteName,String language,String venueName,String city)

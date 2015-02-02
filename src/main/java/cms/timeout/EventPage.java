@@ -20,7 +20,7 @@ public class EventPage extends BaseClass{
         utils.selectFromDropDown(By.id("event_filter_site"), site);
         utils.selectFromDropDown(By.id("event_filter_status"),status);
         utils.selectFromDropDown(By.id("event_filter_updated_last"),UpdatedInLast);
-        driver.findElement(By.xpath(".//*[@id='filterBox']/form/fieldset/div[4]/button")).click();
+        driver.findElement(By.xpath("//button[@value='Filter']")).click();
 
     }
     public void addEvent(String site,String language,String event)
@@ -31,9 +31,8 @@ public class EventPage extends BaseClass{
         try {
             driver.findElement(By.linkText("+ Add event")).click();
         } catch (Exception e) {
-            System.out.println("Element Not Fount");
+            System.out.println("Element Not Found");
         }
-
         utils.selectFromDropDown(By.id("eventCreate_site"),site);
         utils.selectFromDropDown(By.id("eventCreate_language"),language);
         driver.findElement(By.id("eventCreate_name")).clear();

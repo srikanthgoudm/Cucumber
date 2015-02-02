@@ -18,16 +18,16 @@ public class Pages extends BaseClass{
         driver.findElement(By.id("filter_q")).sendKeys(keyword);
         utils.selectFromDropDown(By.id("filter_site"), pageSite);
         utils.selectFromDropDown(By.id("filter_status"),status);
-        driver.findElement(By.xpath("//*[@id=\"filterBox\"]/form/fieldset/div[5]/button")).click();
+        driver.findElement(By.xpath("//button[@value='Filter']")).click();
 
     }
 
     public void addPage(String pageName,String title,String subTitle,String site,String language,String pageType)
     {
-        driver.findElement(By.xpath("/html/body/div/div[3]/h1/a")).click();
+        driver.findElement(By.linkText("+ Add page")).click();
         Assert.assertTrue(utils.isTextPresent("New page"));
 
-        if(utils.isElementPresent(By.id("pageCreate_alias")))
+        if (utils.isElementPresent(By.id("pageCreate_alias")))
         {
          driver.findElement(By.id("pageCreate_alias")).sendKeys(pageName+random);
         }

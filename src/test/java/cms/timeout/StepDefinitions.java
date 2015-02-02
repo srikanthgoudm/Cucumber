@@ -9,6 +9,7 @@ import org.junit.Assert;
 import org.openqa.selenium.*;
 import java.net.MalformedURLException;
 import java.util.*;
+import java.util.NoSuchElementException;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -21,8 +22,8 @@ public class StepDefinitions {
     //String username = "sri-editor", password = "srikanth";
     String username = "autotest-admin", password = "outtime99";
 
-//   String URL="http://admin.qa06.d/";
-    String URL="http://admin.staging01.ldn3.timesout.net/";
+   String URL="http://admin.qa09.d/";
+//    String URL="http://admin.staging01.ldn3.timesout.net/";
 
 //    Properties prop=new Properties();
 //    String URL=System.getProperty("URL1");
@@ -61,14 +62,19 @@ public class StepDefinitions {
     }
     //------------------ADD Venue-----------------------------
 
-    @When("^I add a Venue, I supply the information$")
-    public void supplyVenueInformation(DataTable arg1) throws InterruptedException {
+//    @When("^I add a Venue, I supply the information$")
+//    public void supplyVenueInformation(DataTable arg1) throws InterruptedException {
+//
+//        List<String> raw = Arrays.asList("UK - London","British English", "AutoTestVenue ", "London") ;
+//        venuePage.addVenue(raw.get(0),raw.get(1),raw.get(2),raw.get(3));
+//    }
+@When("^I add a Venue, I supply the information '(.*)','(.*)','(.*)','(.*)$")
+public void supplyVenueInformation(String Site,String Language,String Name,String City)
+{
+    venuePage.addVenue(Site,Language,Name,City);
+}
 
-        List<String> raw = Arrays.asList("UK - London","British English", "AutoTestVenue ", "London") ;
-        venuePage.addVenue(raw.get(0),raw.get(1),raw.get(2),raw.get(3));
-    }
-
-    @When("^I save it$")
+   @When("^I save it$")
     public void save() {
         driver.findElement(By.id("form_submit")).click();
         if (driver.findElement(By.cssSelector("BODY")).getText().contains("We have found some similar sounding events, please review them below before saving this event")){
@@ -133,9 +139,9 @@ public void onVenuesPage() {
     driver.manage().timeouts().implicitlyWait(10,TimeUnit.SECONDS);
     Assert.assertTrue(utils.isTextPresent("Venues"));
 }
-    @When("^I search venue with the Name '(.*)',Site '(.*)' and UpdatedInLast '(.*)'$")
-    public void searchVenue(String name,String site,String UpdatedInLast) {
-        venuePage.searchVenue(name, site, UpdatedInLast);
+    @When("^I search venue with the Name '(.*)',Site '(.*)',Status '(.*)' and UpdatedInLast '(.*)'$")
+    public void searchVenue(String name,String site,String Status,String UpdatedInLast) {
+        venuePage.searchVenue(name, site, Status, UpdatedInLast);
     }
 
     @When("^I change the Venue status as '(.*)'$")
@@ -187,13 +193,17 @@ public void onVenuesPage() {
 
     }
 
-    @When("^I add an Event,I supply the information$")
-    public void supplyEventInfo(DataTable arg1) {
-
-        List<String> raw = Arrays.asList("British English", "Test Event", "UK - London");
-        eventPage.addEvent(raw.get(2),raw.get(0),raw.get(1));
-
+    @When("^I add an Event,I supply the information '(.*)','(.*)','(.*)'$")
+    public void supplyEventInfo(String Site,String Language,String Event)
+    {
+        eventPage.addEvent(Site,Language,Event);
     }
+//    public void supplyEventInfo(DataTable arg1) {
+//
+//        List<String> raw = Arrays.asList("British English", "Test Event", "UK - London");
+//        eventPage.addEvent(raw.get(2),raw.get(0),raw.get(1));
+//
+//    }
     @When("^I change the Event status as '(.*)'$")
     public void changeEventStatus(String Status)
     {
@@ -376,7 +386,14 @@ Assert.assertTrue(driver.findElement(By.xpath("//*[@id=\"content\"]/h1/a")).isDi
 
     @When("^I select the recently created Page with the name '(.*)'$")
     public void searchRecentlyAddedPage(String pageName) {
-    driver.findElement(By.partialLinkText(pageName)).click();
+        try {
+            driver.findElement(By.partialLinkText(pageName)).click();
+        }catch (NoSuchElementException e)
+        {
+            System.out.println("No Pages found with the " + pageName + " name");
+            pages.addPage("TestFeaturePageLondon","LondonFeaturePage","TestSubTitle","UK - London","British English","Feature");
+            pages.addPage("TestFeaturePageSeoul","SeoulFeaturePage","TestSubTitle","South Korea - Seoul","American English","Feature");
+        }
 
     }
 

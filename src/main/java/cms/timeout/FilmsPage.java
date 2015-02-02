@@ -18,7 +18,7 @@ public class FilmsPage extends BaseClass{
     public void searchFilm(String film)
     {
         driver.findElement(By.id("name")).sendKeys(film);
-        driver.findElement(By.xpath("//*[@id='form']/div[3]/button")).click();
+        driver.findElement(By.xpath("//button[@value='Search']")).click();
     }
 
     public void addFilm(String language,String originialTitle,String title,String author,String rating)
