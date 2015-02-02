@@ -21,7 +21,7 @@ Feature: Add,Edit and delete a Venue in CMS
 #    Then I should redirect to Login Page
 Examples:
   |Site |Language|Venue|City|
-#  |UK - London |British English|AutoTestVenueLondon|London|
+ |UK - London |British English|AutoTestVenueLondon|London|
   |South Korea - Seoul|American English|AutoTestVenueSeoul|Seoul|
 
   @editanddeleteVenue
@@ -38,4 +38,4 @@ Examples:
   |AutoTestVenueSeoul|South Korea - Seoul |Complete|
   |AutoTestVenueSeoul|South Korea - Seoul |Deleted|
   |AutoTestVenueLondon|UK - London|Complete|
-#  |AutoTestVenueLondon|UK - London|Deleted |
+  |AutoTestVenueLondon|UK - London|Deleted |

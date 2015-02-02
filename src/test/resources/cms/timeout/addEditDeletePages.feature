@@ -19,12 +19,12 @@ Feature: Add Feature Page,Feature Package and Edit,Delete a Feature Page in CMS
     And I save it
     Examples:
       |Page Name       |Page Title | Sub Title     | Site          | Language         | Page Type|
-#      |TestFeaturePageLondon|LondonFeaturePage |TestSubTitle|UK - London| British English  | Feature |
-#      |TestFeaturePackageLondon|LondonFeaturePackage |TestSubTitle|UK - London| British English  | Package |
+      |TestFeaturePageLondon|LondonFeaturePage |TestSubTitle|UK - London| British English  | Feature |
+      |TestFeaturePackageLondon|LondonFeaturePackage |TestSubTitle|UK - London| British English  | Package |
       |TestFeaturePageSeoul|SeoulFeaturePage|TestSubTitle|South Korea - Seoul|American English|Feature|
       |TestFeaturePackageSeoul|SeoulFeaturePackage|TestSubTitle|South Korea - Seoul|American English|Package|
-#      |TestFeaturePageAtlanta|AtlantaFeaturePage |TestSubTitle|US - Atlanta | American English | Feature |
-#      |TestFeaturePackageAtlanta|AtlantaFeaturePackage|TestSubTitle|US - Atlanta | American English | Package |
+      |TestFeaturePageAtlanta|AtlantaFeaturePage |TestSubTitle|US - Atlanta | American English | Feature |
+      |TestFeaturePackageAtlanta|AtlantaFeaturePackage|TestSubTitle|US - Atlanta | American English | Package |
 
 
 
@@ -39,8 +39,8 @@ Feature: Add Feature Page,Feature Package and Edit,Delete a Feature Page in CMS
     Then I should see the message as 'The page was updated successfully'
   Examples:
     |Page Title|Site|subtitle|Status|
-#    |LondonFeaturePage|UK - London|Modified Test Sub Title|Complete |
-#    |LondonFeaturePage|UK - London|Modified Test Sub Title|Complete |
+    |LondonFeaturePage|UK - London|Modified Test Sub Title|Complete |
+    |LondonFeaturePage|UK - London|Modified Test Sub Title|Complete |
     |SeoulFeaturePage|South Korea - Seoul|Deleting This Page|Complete |
     |SeoulFeaturePage|South Korea - Seoul|Deleting This Page|Deleted  |
 

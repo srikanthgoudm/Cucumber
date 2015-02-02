@@ -20,9 +20,9 @@ Feature: Add,Edit and delete an Event in CMS
 #    Then I should redirect to Login Page
 Examples:
   |Site| Language|Event      |
-#  |UK - London |British English|AutoTestEventLondon |
+  |UK - London |British English|AutoTestEventLondon |
   |South Korea - Seoul|American English|AutoTestEventSeoul|
-#      |American English  | Test Event | China - Shanghai |
+  |American English  | Test Event | China - Shanghai |
 
   @editanDeleteEvent
   Scenario Outline: I can able to find the newly added Events in the list and I can Edit and Delete
@@ -36,8 +36,7 @@ Examples:
     Then I should see the message as 'The event was saved successfully.'
   Examples:
     |Name|Site|Status|
-#    |AutoTestEventLondon|UK - London|Complete|
-#    |AutoTestEventLondon|UK - London|Deleted|
-#    |AutoTestEventSeoul |South Korea - Seoul|Complete |
+    |AutoTestEventLondon|UK - London|Complete|
+    |AutoTestEventLondon|UK - London|Deleted|
+    |AutoTestEventSeoul |South Korea - Seoul|Complete |
     |AutoTestEventSeoul |South Korea - Seoul|Deleted |
-#
