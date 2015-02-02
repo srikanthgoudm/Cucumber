@@ -7,6 +7,7 @@ import org.junit.runner.RunWith;
  * Created by Sairam on 11/08/2014.
  */
 @RunWith(Cucumber.class)
-@Cucumber.Options(format = {"html:target/cucumber"},tags="@addPage")
+@Cucumber.Options(format = {"html:target/cucumber"},features="src/test/resources/cms/timeout")
+//        ,tags="@addPage")
 public class RunTests {
 }
