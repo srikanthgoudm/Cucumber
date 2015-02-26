@@ -6,72 +6,63 @@
     <artifactId>CMS_New</artifactId>
     <version>1.0-SNAPSHOT</version>
         <dependencies>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit-dep</artifactId>
-            <version>4.10</version>
-        </dependency>
-        <dependency>
-            <groupId>info.cukes</groupId>
-            <artifactId>cucumber-core</artifactId>
-            <version>1.0.4</version>
-        </dependency>
-        <dependency>
-            <groupId>info.cukes</groupId>
-            <artifactId>cucumber-java</artifactId>
-            <version>1.0.4</version>
-        </dependency>
-        <dependency>
-            <groupId>info.cukes</groupId>
-            <artifactId>cucumber-junit</artifactId>
-            <version>1.1.5</version>
-        </dependency>
-        <dependency>
-            <groupId>org.seleniumhq.selenium</groupId>
-            <artifactId>selenium-java</artifactId>
-            <version>2.43.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.seleniumhq.selenium</groupId>
-            <artifactId>selenium-firefox-driver</artifactId>
-            <version>2.43.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.seleniumhq.selenium</groupId>
-            <artifactId>selenium-server</artifactId>
-            <version>2.43.1</version>
-        </dependency>
+            <dependency>
+                <groupId>info.cukes</groupId>
+                <artifactId>cucumber-java</artifactId>
+                <version>1.0.4</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.seleniumhq.selenium</groupId>
+                <artifactId>selenium-api</artifactId>
+                <version>2.43.1</version>
+            </dependency>
+            <dependency>
+                <groupId>org.seleniumhq.selenium</groupId>
+                <artifactId>selenium-remote-driver</artifactId>
+                <version>2.43.1</version>
+            </dependency>
+            <dependency>
+                <groupId>org.seleniumhq.selenium</groupId>
+                <artifactId>selenium-firefox-driver</artifactId>
+                <version>2.43.1</version>
+            </dependency>
+            <dependency>
+                <groupId>org.seleniumhq.selenium</groupId>
+                <artifactId>selenium-chrome-driver</artifactId>
+                <version>2.43.1</version>
+            </dependency>
+            <dependency>
+                <groupId>org.seleniumhq.selenium</groupId>
+                <artifactId>selenium-ie-driver</artifactId>
+                <version>2.43.1</version>
+            </dependency>
+            <dependency>
+                <groupId>org.seleniumhq.selenium</groupId>
+                <artifactId>selenium-safari-driver</artifactId>
+                <version>2.43.1</version>
+            </dependency>
             <dependency>
                 <groupId>com.opera</groupId>
                 <artifactId>operadriver</artifactId>
                 <version>1.5</version>
             </dependency>
-            <dependency>
-            <groupId>info.cukes</groupId>
-            <artifactId>cucumber-jvm-deps</artifactId>
-            <version>1.0.3</version>
-        </dependency>
+
+            <!--<dependency>-->
+            <!--<groupId>info.cukes</groupId>-->
+            <!--<artifactId>cucumber-junit</artifactId>-->
+            <!--<version>1.1.8</version>-->
+            <!--<scope>test</scope>-->
+            <!--</dependency>-->
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
                 <version>4.11</version>
-                <scope>test</scope>
             </dependency>
-        <dependency>
-            <groupId>info.cukes</groupId>
-            <artifactId>cucumber-jvm</artifactId>
-            <version>1.1.6</version>
-            <type>pom</type>
-        </dependency>
-        <dependency>
-            <groupId>info.cukes</groupId>
-            <artifactId>gherkin-jvm-deps</artifactId>
-            <version>1.0.2</version>
-        </dependency>
             <dependency>
-                <groupId>org.apache.maven.surefire</groupId>
-                <artifactId>surefire-junit47</artifactId>
-                <version>2.18.1</version>
+                <groupId>junit</groupId>
+                <artifactId>junit-dep</artifactId>
+                <version>4.10</version>
             </dependency>
             <dependency>
                 <groupId>info.cukes</groupId>
@@ -79,8 +70,12 @@
                 <version>1.0.4</version>
                 <scope>test</scope>
             </dependency>
+            <dependency>
+                <groupId>info.cukes</groupId>
+                <artifactId>cucumber-core</artifactId>
+                <version>1.0.4</version>
+            </dependency>
         </dependencies>
-
     <build>
         <testResources>
             <!--  FRAMEWORK PROPERTY FILE -->
@@ -94,11 +89,11 @@
 
             <!--  DATASHEET LOCATION  -->
             <!--<testResource>-->
-                <!--<directory>src/test/resources/datasheets/*</directory>-->
+            <!--<directory>src/test/resources/datasheets/*</directory>-->
             <!--</testResource>-->
             <!--  FEATURE FILES -->
             <!--<testResource>-->
-                <!--<directory>src/test/resources/*</directory>-->
+            <!--<directory>src/test/resources/*</directory>-->
             <!--</testResource>-->
         </testResources>
 
@@ -147,4 +142,5 @@
             </plugin>
         </plugins>
     </build>
+
 </project>

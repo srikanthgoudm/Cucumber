@@ -1,10 +1,12 @@
 package cms.timeout;
 
+import cucumber.table.DataTable;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 /**
@@ -23,9 +25,9 @@ public class PostsPage extends BaseClass{
 
     public void addPost(String postName,String category,String site,String bodyText)
     {
+        driver.findElement(By.linkText("+ Add post")).isDisplayed();
         driver.findElement(By.linkText("+ Add post")).click();
-        List<String> raw = Arrays.asList("Test Post Title", "Movies", "Chicago Blog (Chicago - En)", "Test Body Text");
-
+//        List<String> raw = Arrays.asList("Test Post Title", "Movies", "Chicago Blog (Chicago - En)", "Test Body Text");
         driver.findElement(By.id("postEdit_title")).sendKeys(postName+random);
         utils.selectFromDropDown(By.id("postEdit_taxonomy"),category);
         utils.selectFromDropDown(By.id("postEdit_blogId"),site);
@@ -33,5 +35,4 @@ public class PostsPage extends BaseClass{
         ((JavascriptExecutor)driver).executeScript("tinyMCE.activeEditor.setContent('<h1>This is Body Text Header</h1> Test Body Text')");
 
     }
-
 }

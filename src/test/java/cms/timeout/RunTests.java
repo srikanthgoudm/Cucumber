@@ -1,5 +1,6 @@
 package cms.timeout;
 
+
 import cucumber.junit.Cucumber;
 import org.junit.runner.RunWith;
 
@@ -7,6 +8,6 @@ import org.junit.runner.RunWith;
  * Created by Sairam on 11/08/2014.
  */
 @RunWith(Cucumber.class)
-@Cucumber.Options(format = {"html:target/cucumber"},tags="@addPage")
+@Cucumber.Options(format = {"html:target/cucumber"},tags={"~@addBlog"})
 public class RunTests {
 }

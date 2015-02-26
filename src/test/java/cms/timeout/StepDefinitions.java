@@ -8,6 +8,9 @@ import cucumber.table.DataTable;
 import org.junit.Assert;
 import org.openqa.selenium.*;
 import java.net.MalformedURLException;
+import java.text.DateFormat;
+import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.NoSuchElementException;
 import java.util.concurrent.TimeUnit;
@@ -18,18 +21,16 @@ import java.util.concurrent.TimeUnit;
 public class StepDefinitions {
 //     static WebDriver driver;
     WebDriver driver = BrowserFactory.getDriver();
-    // Test Data -----------------------------------------------
-    //String username = "sri-editor", password = "srikanth";
-    String username = "autotest-admin", password = "outtime99";
+       // Test Data -----------------------------------------------
+    String username=LoadProps.getProperty("AdminUname");
+    String password=LoadProps.getProperty("AdminPwd");
 
-   String URL="http://admin.qa09.d/";
-//    String URL="http://admin.staging01.ldn3.timesout.net/";
-
-//    Properties prop=new Properties();
-//    String URL=System.getProperty("URL1");
+//    String URL=LoadProps.getProperty("QA03");
+    String URL=LoadProps.getProperty("Staging01");
 
     String random= String.valueOf(new Random().nextInt());
 
+    //Page Objects
     Utils utils=new Utils();
     DashBoardPage dashBoardPage=new DashBoardPage();
     LoginPage loginPage=new LoginPage();
@@ -51,14 +52,17 @@ public class StepDefinitions {
 
 
     @After
-    public void stop() {
+    public void stop()
+    {
   driver.quit();
     }
     //------------LOGIN------------------
     @Given("^I am Logged-In$")
     public void loggedIn() {
     loginPage.login(username, password);
-    Assert.assertTrue(driver.findElement(By.linkText(username)).isDisplayed());
+
+        Assert.assertTrue(driver.findElement(By.linkText(username)).isDisplayed());
+
     }
     //------------------ADD Venue-----------------------------
 
@@ -107,13 +111,13 @@ public void supplyVenueInformation(String Site,String Language,String Name,Strin
     @When("^I add taxonomy for Event")
     public void addTaxonomy1() throws InterruptedException {
          //click on taxonomy link
-        driver.findElement(By.xpath("//*[@id='column2']/ul/li[3]/a")).click();
+        driver.findElement(By.xpath("//div[@id='column2']/ul/li[3]/a")).click();
        dashBoardPage.addTaxonomy();
     }
     @When("^I add taxonomy for Venue")
     public void addTaxonomy2() throws InterruptedException {
         //click on taxonomy link
-        driver.findElement(By.xpath("//*[@id='column2']/ul/li[2]/a")).click();
+        driver.findElement(By.xpath("//div[@id='column2']/ul/li[2]/a")).click();
         dashBoardPage.addTaxonomy();
     }
 @When("^I go back to Edit Venue Page$")
@@ -130,7 +134,7 @@ public void I_logout()
 @Then("^I should redirect to Login Page$")
 public void backToLoginPage()
 {
-    Assert.assertEquals("Login", driver.findElement(By.xpath("//*[@id='content']/h1")).getText());
+    Assert.assertEquals("Login", driver.findElement(By.xpath("//div[@id='content']/h1")).getText());
 }
 // -----------------Edit Venue--------------------------------------
 @Given("^I am on the Venues Page$")
@@ -178,6 +182,15 @@ public void onVenuesPage() {
         utils.selectFromDropDown(By.id("venueEdit_status"), Status);
     }
 
+    @When("^I change the Posted Date as currentdate$")
+    public void changePostedDate()
+    {
+         Format formatter = new SimpleDateFormat("MMM d, YYYY");
+        String currentDate = formatter.format(new Date());
+        System.out.println(currentDate);
+        driver.findElement(By.id("venueEdit_posted_at")).sendKeys(currentDate);
+    }
+
     @When("^I save the Venue$")
     public void saveVenue() {
     driver.findElement(By.id("form_submit")).click();
@@ -187,10 +200,7 @@ public void onVenuesPage() {
     @Then("^I should see the message as '(.*)'$")
     public void EVFSavedMesssage(String message) {
         driver.manage().timeouts().implicitlyWait(10,TimeUnit.SECONDS);
-
             Assert.assertTrue(utils.isTextPresent(message));
-
-
     }
 
     @When("^I add an Event,I supply the information '(.*)','(.*)','(.*)'$")
@@ -278,7 +288,7 @@ public void onVenuesPage() {
     @When("^I add taxonomy for Film$")
     public void I_add_taxonomy_for_Film() {
       //select Taxonomy link
-      driver.findElement(By.xpath("//*[@id='column2']/ul/li[5]/a")).click();
+      driver.findElement(By.xpath("//div[@id='column2']/ul/li[5]/a")).click();
       //Add Primary Tag
       dashBoardPage.addTaxonomy();
 
@@ -412,13 +422,13 @@ Assert.assertTrue(driver.findElement(By.xpath("//*[@id=\"content\"]/h1/a")).isDi
     @Given("^I am on the Blogs Page$")
     public void I_am_on_the_Blogs_Page() {
         driver.get(URL+"blogs");
-        Assert.assertTrue(driver.findElement(By.xpath("/html/body/div[3]/div/h1")).isDisplayed());
+        Assert.assertTrue(driver.findElement(By.linkText("Blog list")).isDisplayed());
+        Assert.assertTrue(driver.findElement(By.cssSelector("a.btn.btn-primary")).isDisplayed());
 
     }
 
     @When("^I add a Blog$")
-    public void I_add_a_Blog() {
-driver.findElement(By.xpath("/html/body/div[3]/div/h1/a")).click();
+    public void I_add_a_Blog() {driver.findElement(By.cssSelector("a.btn.btn-primary")).click();
     }
 
     @When("^I supply the Blog information$")
@@ -434,8 +444,8 @@ driver.findElement(By.xpath("/html/body/div[3]/div/h1/a")).click();
 
     @When("^I save blog$")
     public void saveBlog() {
-        driver.findElement(By.xpath("/html/body/div[3]/div/form/div/div/button")).isDisplayed();
-        driver.findElement(By.xpath("/html/body/div[3]/div/form/div/div/button")).click();
+        driver.findElement(By.cssSelector("button[type=\"submit\"]")).isDisplayed();
+        driver.findElement(By.cssSelector("button[type=\"submit\"]")).click();
     }
 
     @Then("^the Blog is created and should see message as '(.*)'$")
@@ -497,7 +507,7 @@ driver.findElement(By.xpath("/html/body/div[3]/div/h1/a")).click();
          System.out.println("Posts link not found");
          driver.get(URL+"posts");
      }
-     Assert.assertTrue(driver.findElement(By.xpath("/html/body/div[3]/div/h1/a")).isDisplayed());
+     Assert.assertTrue(driver.findElement(By.cssSelector("a.btn.btn-primary")).isDisplayed());
  }
 
     @Then("^I selects blog name '(.*)'$")
@@ -518,13 +528,13 @@ driver.findElement(By.xpath("/html/body/div[3]/div/h1/a")).click();
     }
     @When("^I save the Post and Publish$")
     public void savePost() {
-        driver.findElement(By.xpath("/html/body/div[3]/div/form/div[2]/div[1]/div[2]/div[1]/button")).click();
+        driver.findElement(By.cssSelector("button[name=\"status\"]")).click();
         if(utils.isAlertPresent()){
             driver.switchTo().alert();
             driver.switchTo().alert().accept();
             driver.switchTo().defaultContent();
         }
-       driver.findElement(By.xpath("/html/body/div[3]/div/form/div[2]/div[1]/div[3]/button[2]")).click();
+       driver.findElement(By.xpath("(//button[@name='status'])[2]")).click();
     }
 
     @Then("^the Post is created and should see message as '(.*)'$")
@@ -558,9 +568,9 @@ driver.findElement(By.xpath("/html/body/div[3]/div/h1/a")).click();
     @When("^I Update the Post$")
     public void updatePost() {
         try {
-            driver.findElement(By.xpath("/html/body/div[3]/div/form/div[2]/div[1]/div[3]/button[2]")).isDisplayed();
-            driver.findElement(By.xpath("/html/body/div[3]/div/form/div[2]/div[1]/div[3]/button[2]")).click();
-        }catch (Exception e){
+            driver.findElement(By.cssSelector("button[name=\"status\"]")).isDisplayed();
+            driver.findElement(By.cssSelector("button[name=\"status\"]")).click();
+        } catch (Exception e){
             System.out.println("Can't find the Update button");
         }
     }
@@ -568,8 +578,8 @@ driver.findElement(By.xpath("/html/body/div[3]/div/h1/a")).click();
     @When("^I Delete the Post$")
     public void deletePost() {
         try {
-            driver.findElement(By.xpath("/html/body/div[3]/div/form/div[2]/div[1]/div[3]/button[1]")).isDisplayed();
-            driver.findElement(By.xpath("/html/body/div[3]/div/form/div[2]/div[1]/div[3]/button[1]")).click();
+            driver.findElement(By.xpath("(//button[@type='button'])[20]")).isDisplayed();
+            driver.findElement(By.xpath("(//button[@type='button'])[20]")).click();
 
         } catch (Exception e) {
             System.out.println("Can't find the Delete button");
@@ -577,8 +587,8 @@ driver.findElement(By.xpath("/html/body/div[3]/div/h1/a")).click();
     }
         @Then("^I confirm the Delete$")
         public void confirmDelete() {
-            driver.findElement(By.xpath("/html/body/div[4]/div/div/div[2]")).isDisplayed();
-            driver.findElement(By.xpath("/html/body/div[4]/div/div/div[3]/a[1]")).click();
+            driver.findElement(By.cssSelector("#confirm")).isDisplayed();
+            driver.findElement(By.cssSelector("#confirm")).click();
         }
 
     }
