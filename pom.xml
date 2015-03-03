@@ -9,7 +9,7 @@
             <dependency>
                 <groupId>info.cukes</groupId>
                 <artifactId>cucumber-java</artifactId>
-                <version>LATEST</version>
+                <version>1.0.4</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
@@ -45,7 +45,7 @@
             <dependency>
                 <groupId>com.opera</groupId>
                 <artifactId>operadriver</artifactId>
-                <version>LATEST</version>
+                <version>1.5</version>
             </dependency>
 
             <!--<dependency>-->
@@ -57,24 +57,30 @@
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
-                <version>LATEST</version>
+                <version>4.11</version>
             </dependency>
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit-dep</artifactId>
-                <version>LATEST</version>
+                <version>4.10</version>
             </dependency>
             <dependency>
                 <groupId>info.cukes</groupId>
                 <artifactId>cucumber-junit</artifactId>
-                <version>LATEST</version>
+                <version>1.0.4</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>info.cukes</groupId>
                 <artifactId>cucumber-core</artifactId>
-                <version>LATEST</version>
+                <version>1.0.4</version>
             </dependency>
+            <dependency>
+                <groupId>info.cukes</groupId>
+                <artifactId>cucumber-jvm-deps</artifactId>
+                <version>1.0.3</version>
+            </dependency>
+
         </dependencies>
     <build>
         <testResources>
