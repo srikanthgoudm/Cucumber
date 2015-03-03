@@ -9,43 +9,43 @@
             <dependency>
                 <groupId>info.cukes</groupId>
                 <artifactId>cucumber-java</artifactId>
-                <version>1.0.4</version>
+                <version>LATEST</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>org.seleniumhq.selenium</groupId>
                 <artifactId>selenium-api</artifactId>
-                <version>2.43.1</version>
+                <version>LATEST</version>
             </dependency>
             <dependency>
                 <groupId>org.seleniumhq.selenium</groupId>
                 <artifactId>selenium-remote-driver</artifactId>
-                <version>2.43.1</version>
+                <version>LATEST</version>
             </dependency>
             <dependency>
                 <groupId>org.seleniumhq.selenium</groupId>
                 <artifactId>selenium-firefox-driver</artifactId>
-                <version>2.43.1</version>
+                <version>LATEST</version>
             </dependency>
             <dependency>
                 <groupId>org.seleniumhq.selenium</groupId>
                 <artifactId>selenium-chrome-driver</artifactId>
-                <version>2.43.1</version>
+                <version>LATEST</version>
             </dependency>
             <dependency>
                 <groupId>org.seleniumhq.selenium</groupId>
                 <artifactId>selenium-ie-driver</artifactId>
-                <version>2.43.1</version>
+                <version>LATEST</version>
             </dependency>
             <dependency>
                 <groupId>org.seleniumhq.selenium</groupId>
                 <artifactId>selenium-safari-driver</artifactId>
-                <version>2.43.1</version>
+                <version>LATEST</version>
             </dependency>
             <dependency>
                 <groupId>com.opera</groupId>
                 <artifactId>operadriver</artifactId>
-                <version>1.5</version>
+                <version>LATEST</version>
             </dependency>
 
             <!--<dependency>-->
@@ -57,30 +57,30 @@
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
-                <version>4.11</version>
+                <version>LATEST</version>
             </dependency>
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit-dep</artifactId>
-                <version>4.10</version>
+                <version>LATEST</version>
             </dependency>
             <dependency>
                 <groupId>info.cukes</groupId>
                 <artifactId>cucumber-junit</artifactId>
-                <version>1.0.4</version>
+                <version>LATEST</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>info.cukes</groupId>
                 <artifactId>cucumber-core</artifactId>
-                <version>1.0.4</version>
+                <version>LATEST</version>
             </dependency>
         </dependencies>
     <build>
         <testResources>
             <!--  FRAMEWORK PROPERTY FILE -->
             <testResource>
-                <directory>src/main/resources</directory>
+                <directory>src/test/Properties</directory>
                 <filtering>true</filtering>
                 <includes>
                     <include>**/*.properties</include>
